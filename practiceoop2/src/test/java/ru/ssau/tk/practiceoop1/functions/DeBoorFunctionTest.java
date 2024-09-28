@@ -1,7 +1,6 @@
 package ru.ssau.tk.practiceoop1.functions;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeBoorFunctionTest {
@@ -17,7 +16,7 @@ class DeBoorFunctionTest {
         double x = 5.6;
         double result = deBoorFunction.apply(x);
 
-        System.out.println(result);
+        assertEquals(5.6, result, 0.000001);
     }
 
     @Test
@@ -31,7 +30,7 @@ class DeBoorFunctionTest {
         double x = 3.2412;
         double result = deBoorFunction.apply(x);
 
-        System.out.println(result);
+        assertEquals(14.508375, result, 0.000001);
     }
 
     @Test
@@ -45,7 +44,7 @@ class DeBoorFunctionTest {
         double x = 3.3244;
         double result = deBoorFunction.apply(x);
 
-        System.out.println(result);
+        assertEquals(98.548977, result, 0.000001);
     }
 
     @Test
@@ -59,6 +58,6 @@ class DeBoorFunctionTest {
         double x = 2.646;
         double result = deBoorFunction.apply(x);
 
-        System.out.println(result);
+        assertEquals(380.913220, result, 0.000001);
     }
 }
