@@ -13,7 +13,6 @@ class SqrFunctionTest {
         assertEquals(0, sqr.apply(0), 0.000001);
         assertEquals(0.000009, sqr.apply(-0.003), 0.000001);
         assertEquals(4, sqr.apply(-2), 0.000001);
-
     }
 
 }
