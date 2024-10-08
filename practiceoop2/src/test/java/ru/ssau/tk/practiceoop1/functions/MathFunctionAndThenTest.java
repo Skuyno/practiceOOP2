@@ -12,7 +12,7 @@ class MathFunctionAndThenTest {
         MathFunction g = x -> x * 2;
         MathFunction h = x -> x - 3;
 
-        // Создаем сложную функцию f(g(h(x)))
+        // Создаем сложную функцию f.andThen(g).andThen(h)
         MathFunction composite = f.andThen(g).andThen(h);
 
         // Применяем сложную функцию к значению x
@@ -20,13 +20,13 @@ class MathFunctionAndThenTest {
         double result = composite.apply(x);
 
         // Проверяем результат
-        double expectedResult = f.apply(g.apply(h.apply(x)));
+        double expectedResult = (x + 1) * 2 - 3;
         assertEquals(expectedResult, result);
     }
 
     @Test
     void testAndThenWithAnonymousFunctions() {
-        // Создаем сложную функцию f(g(h(x))) с использованием анонимных функций
+        // Создаем сложную функцию f.andThen(g).andThen(h) с использованием анонимных функций
         MathFunction composite = ((MathFunction) x -> x + 1)
                 .andThen(x -> x * 2)
                 .andThen(x -> x - 3);
@@ -36,7 +36,7 @@ class MathFunctionAndThenTest {
         double result = composite.apply(x);
 
         // Проверяем результат
-        double expectedResult = ((MathFunction) x -> x + 1).apply(((MathFunction) x -> x * 2).apply(((MathFunction) x -> x - 3).apply(x)));
+        double expectedResult = (x + 1) * 2 - 3;
         assertEquals(expectedResult, result);
     }
 
@@ -47,7 +47,7 @@ class MathFunctionAndThenTest {
         MathFunction g = x -> x * 2;
         MathFunction h = x -> x - 3;
 
-        // Создаем сложную функцию f(g(h(x))) с использованием нескольких вызовов andThen
+        // Создаем сложную функцию f.andThen(g).andThen(h) с использованием нескольких вызовов andThen
         MathFunction composite = f.andThen(g).andThen(h);
 
         // Применяем сложную функцию к значению x
@@ -55,7 +55,7 @@ class MathFunctionAndThenTest {
         double result = composite.apply(x);
 
         // Проверяем результат
-        double expectedResult = f.apply(g.apply(h.apply(x)));
+        double expectedResult = (x + 1) * 2 - 3;
         assertEquals(expectedResult, result);
     }
 }

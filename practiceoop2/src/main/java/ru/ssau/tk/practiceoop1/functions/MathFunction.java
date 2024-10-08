@@ -4,6 +4,6 @@ public interface MathFunction {
     double apply(double x);
 
     default CompositeFunction andThen(MathFunction afterFunction) {
-        return (double x) -> afterFunction.apply(this.apply(x));
+        return new CompositeFunction(this, afterFunction);
     }
 }
