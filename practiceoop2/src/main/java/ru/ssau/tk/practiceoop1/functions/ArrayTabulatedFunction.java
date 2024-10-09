@@ -100,6 +100,21 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
         return count - 1; // Возвращаем последний индекс, если x больше всех значений
     }
 
+    @Override
+    protected double extrapolateLeft(double x) {
+        return 0;
+    }
+
+    @Override
+    protected double extrapolateRight(double x) {
+        return 0;
+    }
+
+    @Override
+    protected double interpolate(double x, int floorIndex) {
+        return 0;
+    }
+
     // Метод для интерполяции значения Y по X
     @Override
     public double interpolate(double x) {

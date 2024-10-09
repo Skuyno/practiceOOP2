@@ -40,4 +40,7 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction{
             }
         }
     }
+
+    // Метод для интерполяции значения Y по X
+    public abstract double interpolate(double x);
 }
