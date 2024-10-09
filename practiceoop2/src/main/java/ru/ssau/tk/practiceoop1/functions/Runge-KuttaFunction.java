@@ -26,4 +26,7 @@ public class Runge-KuttaFunction implements MathFunction {
         }
 
         return y;
+    }
 }
+
+
