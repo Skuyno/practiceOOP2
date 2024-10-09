@@ -13,15 +13,6 @@ public class DeBoorFunction implements MathFunction {
      * @param degree        Степень B-сплайна
      */
     public DeBoorFunction(double[] controlPoints, double[] knots, int degree) {
-        if (knots.length != controlPoints.length + degree + 1) {
-            throw new IllegalArgumentException("Длина узлового вектора должна быть равна количеству контрольных точек + степень + 1.");
-        }
-        if (!isNonDecreasing(knots)) {
-            throw new IllegalArgumentException("Узловой вектор должен быть неубывающим.");
-        }
-        if (degree < 1) {
-            throw new IllegalArgumentException("Степень сплайна должна быть >= 1.");
-        }
         this.controlPoints = controlPoints.clone();
         this.knots = knots.clone();
         this.degree = degree;
@@ -49,10 +40,6 @@ public class DeBoorFunction implements MathFunction {
      * @return Индекс узла
      */
     private int findKnotIndex(double x) {
-        if (x < knots[degree] || x > knots[knots.length - degree - 1]) {
-            throw new IllegalArgumentException("x находится вне диапазона сплайна.");
-        }
-
         for (int i = degree; i < knots.length - degree - 1; i++) {
             if (x >= knots[i] && x < knots[i + 1]) {
                 return i;
@@ -84,9 +71,6 @@ public class DeBoorFunction implements MathFunction {
             for (int j = k; j >= r; j--) {
                 double alphaNumerator = x - knots[i - k + j];
                 double alphaDenominator = knots[i + 1 + j - r] - knots[i - k + j];
-                if (alphaDenominator == 0) {
-                    throw new ArithmeticException("Деление на ноль при вычислении коэффициента alpha.");
-                }
                 double alpha = alphaNumerator / alphaDenominator;
                 d[j] = (1.0 - alpha) * d[j - 1] + alpha * d[j];
             }
