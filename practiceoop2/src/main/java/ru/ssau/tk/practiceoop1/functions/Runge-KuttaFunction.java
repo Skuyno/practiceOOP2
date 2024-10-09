@@ -2,12 +2,12 @@ package ru.ssau.tk.practiceoop1.functions;
 
 public class Runge-KuttaFunction implements MathFunction {
     // Метод для вычисления значения функции f(x, y)
-    public static double f ( double x, double y){
+    public static double f(double x, double y) {
         return x + y;  // Задайте свою функцию f(x, y)
     }
 
     // Метод Рунге-Кутты 4-го порядка
-    public static double rungeKutta ( double x0, double y0, double x, double h){
+    public static double rungeKutta(double x0, double y0, double x, double h) {
         int n = (int) ((x - x0) / h);
         double k1, k2, k3, k4;
         double y = y0;
@@ -26,5 +26,4 @@ public class Runge-KuttaFunction implements MathFunction {
         }
 
         return y;
-    }
 }
