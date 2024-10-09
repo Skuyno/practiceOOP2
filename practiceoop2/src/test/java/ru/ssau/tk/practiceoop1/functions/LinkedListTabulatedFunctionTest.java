@@ -52,7 +52,7 @@ public class LinkedListTabulatedFunctionTest {
         LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
 
         // Проверка интерполяции (между 1.0 и 2.0)
-        assertEquals(2.5, function.apply(1.5), 0.0001);
+        assertEquals(2.5, function.apply(1.5));
     }
 
     @Test
@@ -115,5 +115,47 @@ public class LinkedListTabulatedFunctionTest {
 
         // Проверка правой границы
         assertEquals(3.0, function.rightBound());
+    }
+
+    @Test
+    public void testFloorIndexOfX() {
+        double[] xValues = {0.0, 1.0, 2.0, 3.0};
+        double[] yValues = {0.0, 1.0, 4.0, 9.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        // Проверка на значения в пределах массива
+        assertEquals(1, function.floorIndexOfX(1.5));
+        assertEquals(2, function.floorIndexOfX(2.5));
+
+        // Проверка на значения ниже минимального X
+        assertEquals(0, function.floorIndexOfX(-1.0));
+
+        // Проверка на значения выше максимального X
+        assertEquals(3, function.floorIndexOfX(10.0));
+    }
+
+    @Test // Тут делаем финальную проверку большинства методов
+    public void TestApply(){
+        double[] xValues = {0.0, 1.0, 2.0, 3.0};
+        double[] yValues = {0.0, 1.0, 4.0, 9.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        assertEquals(0.0, function.apply(0.0));
+        assertEquals(1.0, function.apply(1.0));
+        assertEquals(4.0, function.apply(2.0));
+        assertEquals(9.0, function.apply(3.0));
+
+        // Проверка интерполяций
+        assertEquals(2.5, function.apply(1.5));
+        assertEquals(0.5, function.apply(0.5));
+        assertEquals(6.5, function.apply(2.5));
+
+        // Слева
+        assertEquals(-1.0, function.apply(-1.0));
+        assertEquals(-2.0, function.apply(-2.0));
+
+        // Справа
+        assertEquals(14.0, function.apply(4.0));
+        assertEquals(19.0, function.apply(5.0));
     }
 }

@@ -177,7 +177,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
             return extrapolateRight(x);
         }
 
-        Node nextNode = floorNode.next;
         return interpolate(x, indexOfX(floorNode.x));
     }
 

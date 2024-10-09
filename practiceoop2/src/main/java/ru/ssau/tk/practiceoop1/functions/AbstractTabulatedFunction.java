@@ -24,6 +24,7 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction{
     }
 
     // Метод для вычисления значения по заданному x
+    @Override
     public double apply(double x) {
         if (x < leftBound()) {
             return extrapolateLeft(x);
