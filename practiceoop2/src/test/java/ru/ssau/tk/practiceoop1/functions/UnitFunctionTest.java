@@ -8,7 +8,6 @@ class UnitFunctionTest {
     @Test
     public void testApply() {
         MathFunction unit = new UnitFunction();
-
         assertEquals(1, unit.apply(23412867.0), 0.000001);
         assertEquals(1, unit.apply(0.00000214), 0.000001);
         assertEquals(1, unit.apply(0), 0.000001);

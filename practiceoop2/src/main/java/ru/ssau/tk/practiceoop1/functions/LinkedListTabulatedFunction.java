@@ -1,6 +1,6 @@
 package ru.ssau.tk.practiceoop1.functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Removable{
 
     private Node head;
 
@@ -110,10 +110,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     public int floorIndexOfX(double x) {
-        if (x <= head.x) {
+        if (x <= leftBound()) {
             return 0;
         }
-        if (x >= head.prev.x) {
+        if (x >= rightBound()) {
             return count - 1;
         }
 
@@ -145,10 +145,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     private Node floorNodeOfX(double x) {
-        if (x <= head.x) {
+        if (x <= leftBound()) {
             return head;
         }
-        if (x >= head.prev.x) {
+        if (x >= rightBound()) {
             return head.prev;
         }
 
@@ -169,15 +169,35 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
             return floorNode.y;
         }
 
-        if (x < head.x) {
+        if (x < leftBound()) {
             return extrapolateLeft(x);
         }
 
-        if (x > head.prev.x) {
+        if (x > rightBound()) {
             return extrapolateRight(x);
         }
 
         return interpolate(x, indexOfX(floorNode.x));
+    }
+
+    @Override
+    public void remove(int index) {
+        if (count == 1) {
+            count = 0;
+            head = null;
+            return;
+        }
+
+        Node nodeToRemove = getNode(index);
+
+        // Удаление, если нужно удалить голову
+        if (nodeToRemove == head) {
+            head = nodeToRemove.next;
+        }
+
+        nodeToRemove.prev.next = nodeToRemove.next;
+        nodeToRemove.next.prev = nodeToRemove.prev;
+        count--;
     }
 
     static class Node {

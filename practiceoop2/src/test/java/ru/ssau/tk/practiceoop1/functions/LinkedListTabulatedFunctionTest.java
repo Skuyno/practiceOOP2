@@ -158,4 +158,30 @@ public class LinkedListTabulatedFunctionTest {
         assertEquals(14.0, function.apply(4.0));
         assertEquals(19.0, function.apply(5.0));
     }
+
+    @Test
+    public void testRemove() {
+        double[] xValues = {1.0, 2.0, 3.0, 4.0, 5.0};
+        double[] yValues = {2.0, 4.0, 6.0, 8.0, 10.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        // Удаление среднего элемента
+        function.remove(2);
+        assertEquals(4, function.getCount());
+        assertEquals(4.0, function.getX(2));
+        assertEquals(8.0, function.getY(2));
+
+        // Удаление головы
+        function.remove(0);
+        assertEquals(3, function.getCount());
+        assertEquals(2.0, function.getX(0));
+        assertEquals(4.0, function.getY(0));
+
+        // Удаление последнего элемента
+        function.remove(function.getCount() - 1);
+        assertEquals(2, function.getCount());
+        assertEquals(4.0, function.getX(1));
+        assertEquals(8.0, function.getY(1));
+    }
+
 }

@@ -1,7 +1,7 @@
 package ru.ssau.tk.practiceoop1.functions;
 import java.util.Arrays;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
     // Конструктор с двумя параметрами
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
         if (xValues.length != yValues.length) {
@@ -39,7 +39,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     protected int floorIndexOfX(double x) {
-        for (int i = 0; i < count; i++) {
+        if (x <= leftBound()) {
+            return 0;
+        }
+        for (int i = 1; i < count; i++) {
             if (xValues[i] > x) {
                 return i - 1;
             }
@@ -122,5 +125,31 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             }
         }
         return -1; // Не найдено
+    }
+
+    @Override
+    public void insert(double x, double y) {
+        int tempX;
+        if((tempX = indexOfX(x)) != -1){
+            setY(tempX, y);
+        }else {
+            double[] xValuesTemp = new double[count + 1];
+            double[] yValuesTemp = new double[count + 1];
+            // Позиция вставки должна быть на 1 элемент больше
+            tempX = floorIndexOfX(x) + 1;
+
+            System.arraycopy(xValues, 0, xValuesTemp, 0, tempX);
+            System.arraycopy(yValues, 0, yValuesTemp, 0, tempX);
+
+            xValuesTemp[tempX] = x;
+            yValuesTemp[tempX] = y;
+
+            System.arraycopy(xValues, tempX, xValuesTemp, tempX + 1, count - tempX);
+            System.arraycopy(yValues, tempX, yValuesTemp, tempX + 1, count - tempX);
+
+            xValues = xValuesTemp;
+            yValues = yValuesTemp;
+            count++;
+        }
     }
 }
