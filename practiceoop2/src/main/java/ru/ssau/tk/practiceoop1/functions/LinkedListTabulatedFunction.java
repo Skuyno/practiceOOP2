@@ -1,6 +1,6 @@
 package ru.ssau.tk.practiceoop1.functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Removable{
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Removable, Insertable{
 
     private Node head;
 
@@ -209,6 +209,45 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         public Node(double x, double y) {
             this.x = x;
             this.y = y;
+        }
+    }
+
+    @Override
+    public void insert(double x, double y) {
+        // Если список пустой, добавляем новый узел
+        if (head == null) {
+            addNode(x, y);
+            return;
+        }
+
+        Node current = head;
+
+        while (true) {
+            if (current.x == x) {
+                // Если значение уже существует, обновляем его
+                current.y = y;
+                return;
+            } else if (current.x > x) {
+                // Вставка перед текущим узлом
+                Node newNode = new Node(x, y);
+                newNode.prev = current.prev;
+                newNode.next = current;
+
+                current.prev.next = newNode;
+                current.prev = newNode;
+
+                if (current == head) {
+                    head = newNode;
+                }
+                count++;
+                return;
+            } else if (current.next == head) {
+                // Вставка в конец списка
+                addNode(x, y);
+                return;
+            }
+
+            current = current.next;
         }
     }
 }
