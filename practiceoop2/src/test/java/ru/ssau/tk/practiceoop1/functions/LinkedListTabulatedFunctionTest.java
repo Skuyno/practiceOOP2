@@ -23,6 +23,42 @@ public class LinkedListTabulatedFunctionTest {
     }
 
     @Test
+    void testConstructorWithMathFunction() {
+        // Тест на правильное построение с простой линейной функцией
+        MathFunction linearFunction = x -> 2 * x;
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(linearFunction, 0.0, 10.0, 5);
+
+        assertEquals(5, function.getCount());
+        assertEquals(0.0, function.getX(0));
+        assertEquals(0.0, function.getY(0));
+        assertEquals(10.0, function.getX(4));
+        assertEquals(20.0, function.getY(4));
+
+        // Проверяем шаг
+        assertEquals(2.5, function.getX(1), 0.0001);
+        assertEquals(5.0, function.getX(2), 0.0001);
+        assertEquals(7.5, function.getX(3), 0.0001);
+    }
+
+    @Test
+    void testConstructorWithSwappedBounds() {
+        // Тест на корректную работу, когда xFrom > xTo
+        MathFunction sqr = new SqrFunction();
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(sqr, 10.0, 0.0, 5);
+
+        assertEquals(5, function.getCount());
+        assertEquals(0.0, function.getX(0));
+        assertEquals(0.0, function.getY(0));
+        assertEquals(10.0, function.getX(4));
+        assertEquals(100.0, function.getY(4));
+
+        // Проверяем шаг
+        assertEquals(2.5, function.getX(1), 0.0001);
+        assertEquals(5.0, function.getX(2), 0.0001);
+        assertEquals(7.5, function.getX(3), 0.0001);
+    }
+
+    @Test
     public void testSetY() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
@@ -184,4 +220,60 @@ public class LinkedListTabulatedFunctionTest {
         assertEquals(8.0, function.getY(1));
     }
 
+    @Test
+    void testInsertIntoEmptyList() {
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(new double[]{}, new double[]{});
+
+        // Вставка в пустой список
+        function.insert(1.0, 2.0);
+        assertEquals(1, function.getCount());
+        assertEquals(1.0, function.getX(0));
+        assertEquals(2.0, function.getY(0));
+    }
+
+    @Test
+    void testInsertBeforeHead() {
+        MathFunction linearFunction = x -> 2 * x;
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(linearFunction, 0.0, 10.0, 5);
+
+        // Вставка элемента перед головой
+        function.insert(-1.0, -2.0);
+        assertEquals(6, function.getCount());
+        assertEquals(-1.0, function.getX(0));
+        assertEquals(-2.0, function.getY(0));
+    }
+
+    @Test
+    void testInsertBetweenExistingElements() {
+        MathFunction linearFunction = x -> 2 * x;
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(linearFunction, 0.0, 10.0, 5);
+
+        // Вставка нового значения между существующими
+        function.insert(5.0, 11.0);
+        assertEquals(5, function.getCount());
+        assertEquals(5.0, function.getX(2));
+        assertEquals(11.0, function.getY(2));
+    }
+
+    @Test
+    void testUpdateExistingValue() {
+        MathFunction linearFunction = x -> 2 * x;
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(linearFunction, 0.0, 10.0, 5);
+
+        // Обновление значения существующего узла
+        function.insert(2.0, 10.0);
+        assertEquals(10.0, function.getY(1));
+    }
+
+    @Test
+    void testInsertAtEnd() {
+        MathFunction linearFunction = x -> 2 * x;
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(linearFunction, 0.0, 10.0, 5);
+
+        // Вставка значения в конец списка
+        function.insert(12.0, 24.0);
+        assertEquals(6, function.getCount());
+        assertEquals(12.0, function.getX(5));
+        assertEquals(24.0, function.getY(5));
+    }
 }

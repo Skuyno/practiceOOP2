@@ -64,4 +64,54 @@ public class MockTabulatedFunctionTest {
         assertEquals(mockFunction.indexOfY(-1.0), -1);
         assertEquals(mockFunction.indexOfY(2.0), -1);
     }
+
+    @Test
+    public void testGetX() {
+        MockTabulatedFunction mockFunction = new MockTabulatedFunction();
+
+        // Проверяем возвращаемые значения X
+        assertEquals(0.0, mockFunction.getX(0));
+        assertEquals(1.0, mockFunction.getX(1));
+    }
+
+    // Тесты для метода getY()
+    @Test
+    public void testGetY() {
+        MockTabulatedFunction mockFunction = new MockTabulatedFunction();
+
+        // Проверяем возвращаемые значения Y
+        assertEquals(0.0, mockFunction.getY(0));
+        assertEquals(1.0, mockFunction.getY(1));
+    }
+
+    // Тесты для метода setY()
+    @Test
+    public void testSetY() {
+        MockTabulatedFunction mockFunction = new MockTabulatedFunction();
+
+        // Изменение значений Y
+        mockFunction.setY(0, 2.0);
+        assertEquals(2.0, mockFunction.getY(0));
+
+        mockFunction.setY(1, 3.0);
+        assertEquals(3.0, mockFunction.getY(1));
+    }
+
+    // Тесты для методов leftBound() и rightBound()
+    @Test
+    public void testBounds() {
+        MockTabulatedFunction mockFunction = new MockTabulatedFunction();
+
+        // Проверяем возвращаемые значения границ
+        assertEquals(0.0, mockFunction.leftBound());
+        assertEquals(1.0, mockFunction.rightBound());
+    }
+
+    @Test
+    public void testGetCount() {
+        MockTabulatedFunction mockFunction = new MockTabulatedFunction();
+
+        // Проверяем, что количество точек равно 2
+        assertEquals(2, mockFunction.getCount());
+    }
 }

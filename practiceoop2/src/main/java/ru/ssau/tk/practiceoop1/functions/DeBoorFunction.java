@@ -24,7 +24,7 @@ public class DeBoorFunction implements MathFunction {
      * @param array Массив для проверки
      * @return true, если массив неубывающий, иначе false
      */
-    private boolean isNonDecreasing(double[] array) {
+    protected boolean isNonDecreasing(double[] array) {
         for (int i = 1; i < array.length; i++) {
             if (array[i] < array[i - 1]) {
                 return false;

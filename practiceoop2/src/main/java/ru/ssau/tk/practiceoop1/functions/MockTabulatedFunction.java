@@ -49,7 +49,7 @@ public class MockTabulatedFunction extends AbstractTabulatedFunction {
         } else if (index == 1) {
             return x1;
         }
-        throw new IndexOutOfBoundsException("Invalid index for x");
+        return 0;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MockTabulatedFunction extends AbstractTabulatedFunction {
         } else if (index == 1) {
             return y1;
         }
-        throw new IndexOutOfBoundsException("Invalid index for y");
+        return 0;
     }
 
     @Override
@@ -68,8 +68,6 @@ public class MockTabulatedFunction extends AbstractTabulatedFunction {
             y0 = value;
         } else if (index == 1) {
             y1 = value;
-        } else {
-            throw new IndexOutOfBoundsException("Invalid index for setting y");
         }
     }
 

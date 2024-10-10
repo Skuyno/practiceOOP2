@@ -39,6 +39,19 @@ class ArrayTabulatedFunctionTest {
 
     private ArrayTabulatedFunction function;
 
+    @Test
+    void testConstructorWithMathFunction() {
+        // Тест на правильное построение с простым линейным источником
+        MathFunction linearFunction = x -> 2 * x;  // Линейная функция: y = 2x
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(linearFunction, 0.0, 10.0, 5);
+
+        assertEquals(5, function.getCount());
+        assertEquals(0.0, function.getX(0));
+        assertEquals(0.0, function.getY(0));  // Ожидаем 0.0, так как y = 2 * 0 = 0
+        assertEquals(10.0, function.getX(4));
+        assertEquals(20.0, function.getY(4));  // Проверяем последнее значение
+    }
+
     @BeforeEach
     public void setUp() {
         double[] xValues = {1.0, 2.0, 3.0};
@@ -73,5 +86,70 @@ class ArrayTabulatedFunctionTest {
         assertEquals(2, function.getCount());
         assertEquals(1.0, function.getX(0)); // x = 1.0 на месте 0
         assertEquals(4.0, function.getY(1)); // y = 4.0 должен остаться на месте
+    }
+
+    @Test
+    public void testGetX() {
+        assertEquals(1.0, function.getX(0));
+        assertEquals(2.0, function.getX(1));
+        assertEquals(3.0, function.getX(2));
+    }
+
+    @Test
+    public void testGetY() {
+        assertEquals(1.0, function.getY(0));
+        assertEquals(4.0, function.getY(1));
+    }
+
+    @Test
+    public void testSetY() {
+        function.setY(0, 10.0);
+        assertEquals(10.0, function.getY(0));
+        function.setY(2, 12.0);
+        assertEquals(12.0, function.getY(2));
+    }
+
+    @Test
+    public void testLeftBound() {
+        assertEquals(1.0, function.leftBound());
+    }
+
+    @Test
+    public void testRightBound() {
+        assertEquals(3.0, function.rightBound());
+    }
+
+    @Test
+    public void testApply() {
+        // Внутри диапазона
+        assertEquals(1.0, function.apply(1.0), 0.0001);
+        assertEquals(4.0, function.apply(2.0), 0.0001);
+        assertEquals(9.0, function.apply(3.0), 0.0001);
+
+        // Экстраполяция слева
+        assertEquals(1.0, function.apply(0.5), 0.0001);
+
+        // Экстраполяция справа
+        assertEquals(9.0, function.apply(3.5), 0.0001);
+    }
+
+    @Test
+    public void testInterpolate() {
+        double interpolatedValue = function.interpolate(2.5, 1);
+        assertEquals(6.5, interpolatedValue, 0.0001);
+    }
+
+    @Test
+    public void testIndexOfX() {
+        assertEquals(0, function.indexOfX(1.0));
+        assertEquals(1, function.indexOfX(2.0));
+        assertEquals(-1, function.indexOfX(5.0));
+    }
+
+    @Test
+    public void testIndexOfY() {
+        assertEquals(0, function.indexOfY(1.0));
+        assertEquals(1, function.indexOfY(4.0));
+        assertEquals(-1, function.indexOfY(5.0));
     }
 }
