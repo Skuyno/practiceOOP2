@@ -1,6 +1,6 @@
 package ru.ssau.tk.practiceoop1.functions;
 
-public abstract class AbstractTabulatedFunction implements TabulatedFunction{
+public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     protected double[] xValues;
     protected double[] yValues;
@@ -40,4 +40,5 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction{
             }
         }
     }
+
 }
