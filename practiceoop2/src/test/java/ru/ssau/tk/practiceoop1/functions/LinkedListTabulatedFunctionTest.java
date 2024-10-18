@@ -163,9 +163,6 @@ public class LinkedListTabulatedFunctionTest {
         assertEquals(1, function.floorIndexOfX(1.5));
         assertEquals(2, function.floorIndexOfX(2.5));
 
-        // Проверка на значения ниже минимального X
-        assertEquals(0, function.floorIndexOfX(-1.0));
-
         // Проверка на значения выше максимального X
         assertEquals(3, function.floorIndexOfX(10.0));
     }
@@ -221,17 +218,6 @@ public class LinkedListTabulatedFunctionTest {
     }
 
     @Test
-    void testInsertIntoEmptyList() {
-        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(new double[]{}, new double[]{});
-
-        // Вставка в пустой список
-        function.insert(1.0, 2.0);
-        assertEquals(1, function.getCount());
-        assertEquals(1.0, function.getX(0));
-        assertEquals(2.0, function.getY(0));
-    }
-
-    @Test
     void testInsertBeforeHead() {
         MathFunction linearFunction = x -> 2 * x;
         LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(linearFunction, 0.0, 10.0, 5);
@@ -275,5 +261,78 @@ public class LinkedListTabulatedFunctionTest {
         assertEquals(6, function.getCount());
         assertEquals(12.0, function.getX(5));
         assertEquals(24.0, function.getY(5));
+    }
+
+    @Test
+    void testExceptionCreateEmptyList() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new LinkedListTabulatedFunction(new double[]{}, new double[]{});
+        }, "Должно выбросить IllegalArgumentException при попытке создания таблицы с нулевым количеством точек.");
+    }
+
+    @Test
+    public void testConstructorWithInsufficientPoints() {
+        double[] xValues = {1.0};
+        double[] yValues = {2.0};
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new LinkedListTabulatedFunction(xValues, yValues);
+        }, "Должно выбросить IllegalArgumentException при создании таблицы с менее чем 2 точками.");
+    }
+
+    @Test
+    public void testConstructorWithMathFunctionInsufficientPoints() {
+        MathFunction linearFunction = x -> 2 * x;
+        assertThrows(IllegalArgumentException.class, () -> {
+            new LinkedListTabulatedFunction(linearFunction, 0.0, 1.0, 1);
+        }, "Должно выбросить IllegalArgumentException при создании таблицы с менее чем 2 точками.");
+    }
+
+    @Test
+    public void testGetXWithInvalidIndex() {
+        double[] xValues = {0.0, 1.0, 2.0};
+        double[] yValues = {0.0, 1.0, 4.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        // Негативные индексы
+        assertThrows(IllegalArgumentException.class, () -> {
+            function.getX(-1);
+        }, "Должно выбросить IllegalArgumentException для отрицательного индекса.");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            function.getX(3);
+        }, "Должно выбросить IllegalArgumentException для индекса равного длине таблицы.");
+    }
+
+    @Test
+    public void testGetYWithInvalidIndex() {
+        double[] xValues = {0.0, 1.0, 2.0};
+        double[] yValues = {0.0, 1.0, 4.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        // Негативные индексы
+        assertThrows(IllegalArgumentException.class, () -> {
+            function.getY(-1);
+        }, "Должно выбросить IllegalArgumentException для отрицательного индекса.");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            function.getY(3);
+        }, "Должно выбросить IllegalArgumentException для индекса равного длине таблицы.");
+    }
+
+    @Test
+    public void testSetYWithInvalidIndex() {
+        double[] xValues = {0.0, 1.0, 2.0};
+        double[] yValues = {0.0, 1.0, 4.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        // Негативные индексы
+        assertThrows(IllegalArgumentException.class, () -> {
+            function.setY(-1, 5.0);
+        }, "Должно выбросить IllegalArgumentException для отрицательного индекса.");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            function.setY(3, 5.0);
+        }, "Должно выбросить IllegalArgumentException для индекса равного длине таблицы.");
     }
 }

@@ -21,12 +21,18 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     }
 
     LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("Длина таблицы меньше минимальной (2 точки).");
+        }
         for (int i = 0; i < xValues.length; i++) {
             addNode(xValues[i], yValues[i]);
         }
     }
 
     LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
+        if (count < 2) {
+            throw new IllegalArgumentException("Длина таблицы меньше минимальной (2 точки).");
+        }
         if (xFrom > xTo) {
             double temp = xFrom;
             xFrom = xTo;
@@ -71,16 +77,25 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     public double getX(int index) {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Индекс выходит за допустимые пределы.");
+        }
         return getNode(index).x;
     }
 
     @Override
     public double getY(int index) {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Индекс выходит за допустимые пределы.");
+        }
         return getNode(index).y;
     }
 
     @Override
     public void setY(int index, double value) {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Индекс выходит за допустимые пределы.");
+        }
         getNode(index).y = value;
     }
 
@@ -110,8 +125,8 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     public int floorIndexOfX(double x) {
-        if (x <= leftBound()) {
-            return 0;
+        if (x < leftBound()) {
+            throw new IllegalArgumentException("Значение x меньше левой границы.");
         }
         if (x >= rightBound()) {
             return count - 1;
@@ -120,11 +135,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         Node current = head;
         int index = 0;
 
-        while (current != head.prev && current.x <= x) {
-            index++;
+        while (current.next != null && current.next.x <= x) {
             current = current.next;
+            index++;
         }
-        return index - 1;
+        return index;
     }
 
     @Override
@@ -145,11 +160,8 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     }
 
     private Node floorNodeOfX(double x) {
-        if (x <= leftBound()) {
-            return head;
-        }
-        if (x >= rightBound()) {
-            return head.prev;
+        if (x < leftBound()) {
+            throw new IllegalArgumentException("Значение x меньше левой границы.");
         }
 
         Node current = head;
@@ -163,18 +175,18 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     public double apply(double x) {
-        Node floorNode = floorNodeOfX(x);
-
-        if (x == floorNode.x) {
-            return floorNode.y;
-        }
 
         if (x < leftBound()) {
             return extrapolateLeft(x);
         }
-
         if (x > rightBound()) {
             return extrapolateRight(x);
+        }
+
+        Node floorNode = floorNodeOfX(x);
+
+        if (x == floorNode.x) {
+            return floorNode.y;
         }
 
         return interpolate(x, indexOfX(floorNode.x));
