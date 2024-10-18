@@ -1,5 +1,6 @@
 package ru.ssau.tk.practiceoop1.functions;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     // Конструктор с двумя параметрами
@@ -170,6 +171,11 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         this.xValues = newXValues;
         this.yValues = newYValues;
         this.count--;
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        throw new UnsupportedOperationException();
     }
 }
 

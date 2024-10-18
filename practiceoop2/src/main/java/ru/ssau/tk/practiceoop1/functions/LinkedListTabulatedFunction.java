@@ -1,5 +1,7 @@
 package ru.ssau.tk.practiceoop1.functions;
 
+import java.util.Iterator;
+
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Removable, Insertable{
 
     private Node head;
@@ -261,6 +263,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
             current = current.next;
         }
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        throw new UnsupportedOperationException();
     }
 }
 
