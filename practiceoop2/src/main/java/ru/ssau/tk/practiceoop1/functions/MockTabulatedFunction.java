@@ -1,5 +1,7 @@
 package ru.ssau.tk.practiceoop1.functions;
 
+import java.util.Iterator;
+
 public class MockTabulatedFunction extends AbstractTabulatedFunction {
 
     private final double x0 = 0.0;
@@ -99,5 +101,10 @@ public class MockTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     public double rightBound() {
         return x1;
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        throw new UnsupportedOperationException();
     }
 }

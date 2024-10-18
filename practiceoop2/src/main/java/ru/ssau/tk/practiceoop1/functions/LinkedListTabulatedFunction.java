@@ -1,8 +1,9 @@
 package ru.ssau.tk.practiceoop1.functions;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Removable, Insertable{
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Removable, Insertable {
 
     private Node head;
 
@@ -214,18 +215,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         count--;
     }
 
-    static class Node {
-        public Node next;
-        public Node prev;
-        public double x;
-        public double y;
-
-        public Node(double x, double y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
     @Override
     public void insert(double x, double y) {
         // Если список пустой, добавляем новый узел
@@ -267,7 +256,38 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     public Iterator<Point> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<Point>() {
+            private Node current = head;
+            private int traversed = 0;
+
+            @Override
+            public boolean hasNext() {
+                return traversed < count;
+            }
+
+            @Override
+            public Point next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("Больше нет элементов для итерации.");
+                }
+                Point point = new Point(current.x, current.y);
+                current = current.next;
+                traversed++;
+                return point;
+            }
+        };
+    }
+
+    static class Node {
+        public Node next;
+        public Node prev;
+        public double x;
+        public double y;
+
+        public Node(double x, double y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 }
 

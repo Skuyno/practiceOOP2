@@ -1,6 +1,7 @@
 package ru.ssau.tk.practiceoop1.functions;
 
 import org.junit.jupiter.api.Test;
+import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkedListTabulatedFunctionTest {
@@ -168,7 +169,7 @@ public class LinkedListTabulatedFunctionTest {
     }
 
     @Test // Тут делаем финальную проверку большинства методов
-    public void TestApply(){
+    public void TestApply() {
         double[] xValues = {0.0, 1.0, 2.0, 3.0};
         double[] yValues = {0.0, 1.0, 4.0, 9.0};
         LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
@@ -334,5 +335,37 @@ public class LinkedListTabulatedFunctionTest {
         assertThrows(IllegalArgumentException.class, () -> {
             function.setY(3, 5.0);
         }, "Должно выбросить IllegalArgumentException для индекса равного длине таблицы.");
+    }
+
+    @Test
+    public void testIteratorWithWhileLoop() {
+        double[] xValues = {0.0, 1.0, 2.0, 3.0};
+        double[] yValues = {0.0, 1.0, 4.0, 9.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        Iterator<Point> iterator = function.iterator();
+        int index = 0;
+        while (iterator.hasNext()) {
+            Point point = iterator.next();
+            assertEquals(xValues[index], point.x);
+            assertEquals(yValues[index], point.y);
+            index++;
+        }
+        assertEquals(xValues.length, index, "Количество итераций не совпадает с количеством элементов.");
+    }
+
+    @Test
+    public void testIteratorWithForEachLoop() {
+        double[] xValues = {0.0, 1.0, 2.0, 3.0};
+        double[] yValues = {0.0, 1.0, 4.0, 9.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        int index = 0;
+        for (Point point : function) {
+            assertEquals(xValues[index], point.x);
+            assertEquals(yValues[index], point.y);
+            index++;
+        }
+        assertEquals(xValues.length, index, "Количество итераций не совпадает с количеством элементов.");
     }
 }
