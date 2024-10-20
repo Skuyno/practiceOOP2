@@ -1,7 +1,10 @@
 package ru.ssau.tk.practiceoop1.functions;
 
 import org.junit.jupiter.api.Test;
+
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkedListTabulatedFunctionTest {
@@ -368,4 +371,24 @@ public class LinkedListTabulatedFunctionTest {
         }
         assertEquals(xValues.length, index, "Количество итераций не совпадает с количеством элементов.");
     }
+
+    @Test
+    public void testIteratorException() {
+        double[] xValues = {0.0, 1.0, 2.0, 3.0};
+        double[] yValues = {0.0, 1.0, 4.0, 9.0};
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        Iterator<Point> iterator = function.iterator();
+        int index = 0;
+        while (iterator.hasNext()) {
+            Point point = iterator.next();
+            assertEquals(xValues[index], point.x);
+            assertEquals(yValues[index], point.y);
+            index++;
+        }
+        assertThrows(NoSuchElementException.class,
+        iterator::next,
+        "Должно выбросить oSuchElementException, если попытаться выйти итератором за количество элементов.");
+    }
+
 }
