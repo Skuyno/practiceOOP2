@@ -421,4 +421,13 @@ public class LinkedListTabulatedFunctionTest {
                 "Должно выбросить oSuchElementException, если попытаться выйти итератором за количество элементов.");
     }
 
+    @Test
+    public void testToStringLinkedListTabulatedFunction() {
+        double[] xValues = {1.0, 2.0, 3.0, 4.0};
+        double[] yValues = {2.0, 4.0, 6.0, 8.0};
+        TabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+
+        String expected = "LinkedListTabulatedFunction size = 4\n[1.0; 2.0]\n[2.0; 4.0]\n[3.0; 6.0]\n[4.0; 8.0]\n";
+        assertEquals(expected, function.toString());
+    }
 }
