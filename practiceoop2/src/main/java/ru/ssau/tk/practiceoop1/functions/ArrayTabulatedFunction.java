@@ -1,13 +1,13 @@
 package ru.ssau.tk.practiceoop1.functions;
 import java.util.Arrays;
 import java.util.Iterator;
+import ru.ssau.tk.practiceoop1.exceptions.InterpolationException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     // Конструктор с двумя параметрами
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("Arrays must have the same length");
-        }
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
 
         this.count = xValues.length;
         this.xValues = Arrays.copyOf(xValues, count);
@@ -63,8 +63,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     protected double interpolate(double x, int floorIndex) {
-        if (floorIndex < 0 || floorIndex >= count - 1) {
-            throw new IndexOutOfBoundsException("Floor index out of bounds");
+        //проверка
+        if (x < xValues[floorIndex] || x > xValues[floorIndex + 1]) {
+            throw new InterpolationException("x находится вне интервала интерполирования.");
         }
         return interpolate(x, xValues[floorIndex], xValues[floorIndex + 1], yValues[floorIndex], yValues[floorIndex + 1]);
     }

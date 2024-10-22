@@ -1,5 +1,7 @@
 package ru.ssau.tk.practiceoop1.functions;
 
+import ru.ssau.tk.practiceoop1.exceptions.InterpolationException;
+
 import java.util.Iterator;
 
 public class MockTabulatedFunction extends AbstractTabulatedFunction {
@@ -36,6 +38,10 @@ public class MockTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     protected double interpolate(double x, int floorIndex) {
+        //проверка
+        if (x < xValues[floorIndex] || x > xValues[floorIndex + 1]) {
+            throw new InterpolationException("x находится вне интервала интерполирования.");
+        }
         return interpolate(x, x0, x1, y0, y1);
     }
 

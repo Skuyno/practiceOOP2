@@ -1,10 +1,22 @@
 package ru.ssau.tk.practiceoop1.functions;
 
 import org.junit.jupiter.api.Test;
+import ru.ssau.tk.practiceoop1.exceptions.InterpolationException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MockTabulatedFunctionTest {
 
+    @Test
+    public void testInterpolationException() {
+        double[] x = {1.0, 2.0, 3.0};
+        double[] y = {2.0, 4.0, 6.0};
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(x, y);
+
+        assertThrows(InterpolationException.class, () -> {
+            function.interpolate(4.0,2);
+        });
+    }
     @Test
     public void testInterpolate() {
         MockTabulatedFunction mockFunction = new MockTabulatedFunction();

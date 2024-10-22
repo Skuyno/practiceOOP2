@@ -1,5 +1,7 @@
 package ru.ssau.tk.practiceoop1.functions;
 
+import ru.ssau.tk.practiceoop1.exceptions.InterpolationException;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -27,6 +29,8 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         if (xValues.length < 2) {
             throw new IllegalArgumentException("Длина таблицы меньше минимальной (2 точки).");
         }
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
         for (int i = 0; i < xValues.length; i++) {
             addNode(xValues[i], yValues[i]);
         }
@@ -147,6 +151,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     protected double interpolate(double x, int floorIndex) {
+        //проверка
+        if (x < xValues[floorIndex] || x > xValues[floorIndex + 1]) {
+            throw new InterpolationException("x находится вне интервала интерполирования.");
+        }
         Node left = getNode(floorIndex);
         Node right = left.next;
         return left.y + (x - left.x) * (right.y - left.y) / (right.x - left.x);

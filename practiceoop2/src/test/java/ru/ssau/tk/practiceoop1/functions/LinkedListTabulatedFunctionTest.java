@@ -1,6 +1,9 @@
 package ru.ssau.tk.practiceoop1.functions;
 
 import org.junit.jupiter.api.Test;
+import ru.ssau.tk.practiceoop1.exceptions.ArrayIsNotSortedException;
+import ru.ssau.tk.practiceoop1.exceptions.DifferentLengthOfArraysException;
+import ru.ssau.tk.practiceoop1.exceptions.InterpolationException;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -8,7 +11,22 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkedListTabulatedFunctionTest {
+    @Test
+    public void testDifferentLengthOfArraysException() {
+        double[] x = {1.0, 2.0};
+        double[] y = {3.0};
+        assertThrows(DifferentLengthOfArraysException.class, () -> {
+            AbstractTabulatedFunction.checkLengthIsTheSame(x, y);
+        });
+    }
 
+    @Test
+    public void testArrayIsNotSortedException() {
+        double[] x = {2.0, 1.0};
+        assertThrows(ArrayIsNotSortedException.class, () -> {
+            AbstractTabulatedFunction.checkSorted(x);
+        });
+    }
     @Test
     public void testGetXandGetY() {
         double[] xValues = {0.0, 1.0, 2.0};
@@ -283,6 +301,17 @@ public class LinkedListTabulatedFunctionTest {
             new LinkedListTabulatedFunction(xValues, yValues);
         }, "Должно выбросить IllegalArgumentException при создании таблицы с менее чем 2 точками.");
     }
+    @Test
+    public void testInterpolationException() {
+        double[] x = {1.0, 2.0, 3.0};
+        double[] y = {2.0, 4.0, 6.0};
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(x, y);
+
+        assertThrows(InterpolationException.class, () -> {
+            function.interpolate(4.0,2);
+        });
+    }
+
 
     @Test
     public void testConstructorWithMathFunctionInsufficientPoints() {
