@@ -5,10 +5,31 @@ import ru.ssau.tk.practiceoop1.exceptions.InconsistentFunctionsException;
 import ru.ssau.tk.practiceoop1.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.Point;
 import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
+import ru.ssau.tk.practiceoop1.functions.factory.ArrayTabulatedFunctionFactory;
+import ru.ssau.tk.practiceoop1.functions.factory.LinkedListTabulatedFunctionFactory;
+import ru.ssau.tk.practiceoop1.functions.factory.TabulatedFunctionFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TabulatedFunctionOperationServiceTest {
+
+    @Test
+    public void testGetFactory() {
+        TabulatedFunctionFactory arrayFactory = new ArrayTabulatedFunctionFactory();
+        TabulatedFunctionOperationService service = new TabulatedFunctionOperationService(arrayFactory);
+
+        assertEquals(arrayFactory, service.getFactory(), "Метод getFactory() должен возвращать установленную фабрику.");
+    }
+
+    @Test
+    public void testSetFactory() {
+        TabulatedFunctionFactory initialFactory = new ArrayTabulatedFunctionFactory();
+        TabulatedFunctionFactory newFactory = new LinkedListTabulatedFunctionFactory();
+        TabulatedFunctionOperationService service = new TabulatedFunctionOperationService(initialFactory);
+
+        service.setFactory(newFactory);
+        assertEquals(newFactory, service.getFactory(), "Метод setFactory() должен обновить фабрику.");
+    }
 
     @Test
     public void testAsPoints() {
@@ -55,6 +76,54 @@ public class TabulatedFunctionOperationServiceTest {
         assertEquals(5.0, result.getY(1)); // 20 - 15
         assertEquals(3.0, result.getX(2));
         assertEquals(5.0, result.getY(2)); // 30 - 25
+    }
+
+    @Test
+    public void testMultiply() throws InconsistentFunctionsException {
+        TabulatedFunction function1 = new ArrayTabulatedFunction(
+                new double[]{1.0, 2.0, 3.0},
+                new double[]{2.0, 4.0, 6.0}
+        );
+        TabulatedFunction function2 = new ArrayTabulatedFunction(
+                new double[]{1.0, 2.0, 3.0},
+                new double[]{3.0, 5.0, 7.0}
+        );
+
+        TabulatedFunctionOperationService service = new TabulatedFunctionOperationService();
+        TabulatedFunction result = service.multiply(function1, function2);
+
+        assertEquals(3, result.getCount());
+
+        assertEquals(1.0, result.getX(0));
+        assertEquals(6.0, result.getY(0)); // 2 * 3
+        assertEquals(2.0, result.getX(1));
+        assertEquals(20.0, result.getY(1)); // 4 * 5
+        assertEquals(3.0, result.getX(2));
+        assertEquals(42.0, result.getY(2)); // 6 * 7
+    }
+
+    @Test
+    public void testDivide() throws InconsistentFunctionsException {
+        TabulatedFunction function1 = new ArrayTabulatedFunction(
+                new double[]{1.0, 2.0, 3.0},
+                new double[]{10.0, 20.0, 30.0}
+        );
+        TabulatedFunction function2 = new ArrayTabulatedFunction(
+                new double[]{1.0, 2.0, 3.0},
+                new double[]{2.0, 4.0, 5.0}
+        );
+
+        TabulatedFunctionOperationService service = new TabulatedFunctionOperationService();
+        TabulatedFunction result = service.divide(function1, function2);
+
+        assertEquals(3, result.getCount());
+
+        assertEquals(1.0, result.getX(0));
+        assertEquals(5.0, result.getY(0)); // 10 / 2
+        assertEquals(2.0, result.getX(1));
+        assertEquals(5.0, result.getY(1)); // 20 / 4
+        assertEquals(3.0, result.getX(2));
+        assertEquals(6.0, result.getY(2)); // 30 / 5
     }
 
     @Test
