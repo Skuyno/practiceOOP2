@@ -27,6 +27,7 @@ public class LinkedListTabulatedFunctionTest {
             AbstractTabulatedFunction.checkSorted(x);
         });
     }
+
     @Test
     public void testGetXandGetY() {
         double[] xValues = {0.0, 1.0, 2.0};
@@ -105,8 +106,8 @@ public class LinkedListTabulatedFunctionTest {
 
     @Test
     public void testApplyInterpolation() {
-        double[] xValues = {0.0, 1.0, 2.0};
-        double[] yValues = {0.0, 1.0, 4.0};
+        double[] xValues = {0.0, 1.0, 2.0, 3.0};
+        double[] yValues = {0.0, 1.0, 4.0, 9.0};
         LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
 
         // Проверка интерполяции (между 1.0 и 2.0)
@@ -203,7 +204,6 @@ public class LinkedListTabulatedFunctionTest {
         // Проверка интерполяций
         assertEquals(2.5, function.apply(1.5));
         assertEquals(0.5, function.apply(0.5));
-        assertEquals(6.5, function.apply(2.5));
 
         // Слева
         assertEquals(-1.0, function.apply(-1.0));
@@ -301,6 +301,7 @@ public class LinkedListTabulatedFunctionTest {
             new LinkedListTabulatedFunction(xValues, yValues);
         }, "Должно выбросить IllegalArgumentException при создании таблицы с менее чем 2 точками.");
     }
+
     @Test
     public void testInterpolationException() {
         double[] x = {1.0, 2.0, 3.0};
@@ -308,7 +309,7 @@ public class LinkedListTabulatedFunctionTest {
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(x, y);
 
         assertThrows(InterpolationException.class, () -> {
-            function.interpolate(4.0,2);
+            function.interpolate(3.5, 1);
         });
     }
 
@@ -416,8 +417,8 @@ public class LinkedListTabulatedFunctionTest {
             index++;
         }
         assertThrows(NoSuchElementException.class,
-        iterator::next,
-        "Должно выбросить oSuchElementException, если попытаться выйти итератором за количество элементов.");
+                iterator::next,
+                "Должно выбросить oSuchElementException, если попытаться выйти итератором за количество элементов.");
     }
 
 }

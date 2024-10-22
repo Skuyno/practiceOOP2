@@ -59,7 +59,7 @@ class ArrayTabulatedFunctionTest {
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(x, y);
 
         assertThrows(InterpolationException.class, () -> {
-            function.interpolate(4.0,2);
+            function.interpolate(3.5,1);
         });
     }
 
