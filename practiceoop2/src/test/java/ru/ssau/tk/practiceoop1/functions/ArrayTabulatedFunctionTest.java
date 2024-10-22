@@ -5,10 +5,37 @@ import org.junit.jupiter.api.Test;
 import ru.ssau.tk.practiceoop1.exceptions.ArrayIsNotSortedException;
 import ru.ssau.tk.practiceoop1.exceptions.DifferentLengthOfArraysException;
 import ru.ssau.tk.practiceoop1.exceptions.InterpolationException;
+import java.util.NoSuchElementException;
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArrayTabulatedFunctionTest {
+    @Test
+    public void testIterator() {
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(new double[]{1.0, 2.0, 3.0}, new double[]{10.0, 20.0, 30.0});
+
+        // Первый цикл для проверки корректности элементов
+        Iterator<Point> iterator = function.iterator();
+        int index = 0;
+
+        while (iterator.hasNext()) {
+            Point point = iterator.next();
+            assertEquals(function.xValues[index], point.x);
+            assertEquals(function.yValues[index], point.y);
+            index++;
+        }
+
+        // Второй цикл для проверки, что больше нет элементов
+        iterator = function.iterator();
+
+        while (iterator.hasNext()) {
+            iterator.next();
+        }
+
+        assertThrows(NoSuchElementException.class, iterator::next);
+    }
+
     @Test
     public void testDifferentLengthOfArraysException() {
         double[] x = {1.0, 2.0};
