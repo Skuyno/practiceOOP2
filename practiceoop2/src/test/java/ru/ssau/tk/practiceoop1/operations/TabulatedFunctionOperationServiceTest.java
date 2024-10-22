@@ -1,8 +1,10 @@
-package ru.ssau.tk.practiceoop1.functions;
+package ru.ssau.tk.practiceoop1.operations;
 
 import org.junit.jupiter.api.Test;
 import ru.ssau.tk.practiceoop1.exceptions.InconsistentFunctionsException;
-import ru.ssau.tk.practiceoop1.operations.TabulatedFunctionOperationService;
+import ru.ssau.tk.practiceoop1.functions.ArrayTabulatedFunction;
+import ru.ssau.tk.practiceoop1.functions.Point;
+import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
 
 import static org.junit.jupiter.api.Assertions.*;
 
