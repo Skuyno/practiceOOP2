@@ -1,5 +1,7 @@
 package ru.ssau.tk.practiceoop1.functions;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -7,7 +9,10 @@ import ru.ssau.tk.practiceoop1.exceptions.InterpolationException;
 
 import java.util.NoSuchElementException;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable, Serializable {
+    @Serial
+    private static final long serialVersionUID = -1585512809164835865L;
+
     // Конструктор с двумя параметрами
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
         checkLengthIsTheSame(xValues, yValues);
