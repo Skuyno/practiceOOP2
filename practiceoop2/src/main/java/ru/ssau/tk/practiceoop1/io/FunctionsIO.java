@@ -5,6 +5,9 @@ import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.factory.TabulatedFunctionFactory;
 
 import java.io.*;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 public final class FunctionsIO {
     // Приватный конструктор, чтобы предотвратить создание экземпляров
@@ -54,10 +57,47 @@ public final class FunctionsIO {
 
         // Записываем каждую пару значений x и y
         for (int i = 0; i < function.getCount(); i++) {
-            printWriter.printf("%f %fn", function.getX(i), function.getY(i));
+            printWriter.printf("%.6f %.6f%n", function.getX(i), function.getY(i));
+
         }
 
         // Пробрасываем данные из буфера
         printWriter.flush();
+    }
+
+    public static TabulatedFunction readTabulatedFunction(BufferedReader reader, TabulatedFunctionFactory factory) throws IOException {
+        try {
+            // Читаем количество точек
+            String line = reader.readLine();
+            int count = Integer.parseInt(line.trim());
+
+            // Создаем массивы для x и y
+            double[] xValues = new double[count];
+            double[] yValues = new double[count];
+
+            // Создаем форматтер для чтения чисел с запятой
+            NumberFormat format = NumberFormat.getInstance(Locale.forLanguageTag("ru"));
+
+            // Читаем точки
+            for (int i = 0; i < count; i++) {
+                line = reader.readLine();
+                String[] parts = line.split(" ");
+
+                // Парсим x и y
+                try {
+                    xValues[i] = format.parse(parts[0].trim()).doubleValue();
+                    yValues[i] = format.parse(parts[1].trim()).doubleValue();
+                } catch (ParseException e) {
+                    throw new IOException("Ошибка при парсинге числа", e);
+                }
+            }
+
+            // Создаем и возвращаем функцию с использованием фабрики
+            return factory.create(xValues, yValues);
+        } catch (IOException e) {
+            throw e; // Пробрасываем IOException
+        } catch (NumberFormatException e) {
+            throw new IOException("Ошибка формата числа", e);
+        }
     }
 }
