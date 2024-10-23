@@ -2,10 +2,15 @@ package ru.ssau.tk.practiceoop1.functions;
 
 import ru.ssau.tk.practiceoop1.exceptions.InterpolationException;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Removable, Insertable {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Removable, Insertable, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -93217583830512933L;
 
     private Node head;
 
@@ -287,7 +292,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         };
     }
 
-    static class Node {
+    static class Node implements Serializable{
+        @Serial
+        private static final long serialVersionUID = -6814941931953982276L;
+
         public Node next;
         public Node prev;
         public double x;

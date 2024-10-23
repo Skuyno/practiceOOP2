@@ -2,10 +2,9 @@ package ru.ssau.tk.practiceoop1.io;
 
 import ru.ssau.tk.practiceoop1.functions.Point;
 import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
+import ru.ssau.tk.practiceoop1.functions.factory.TabulatedFunctionFactory;
 
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public final class FunctionsIO {
     // Приватный конструктор, чтобы предотвратить создание экземпляров
@@ -23,6 +22,28 @@ public final class FunctionsIO {
         }
 
         dataOutputStream.flush();
+    }
+
+    public static TabulatedFunction readTabulatedFunction(BufferedInputStream inputStream, TabulatedFunctionFactory factory) throws IOException {
+        DataInputStream dataInputStream = new DataInputStream(inputStream);
+
+        int count = dataInputStream.readInt();
+        double[] xValues = new double[count];
+        double[] yValues = new double[count];
+        for (int i = 0; i < count; i++) {
+            xValues[i] = dataInputStream.readDouble();
+            yValues[i] = dataInputStream.readDouble();
+        }
+        return factory.create(xValues, yValues);
+    }
+
+    public static TabulatedFunction deserialize(BufferedInputStream stream) throws IOException, ClassNotFoundException {
+        ObjectInputStream objectInputStream = new ObjectInputStream(stream);
+        Object obj = objectInputStream.readObject();
+        if (!(obj instanceof TabulatedFunction)) {
+            throw new IOException("Десериализованный объект не является экземпляром TabulatedFunction.");
+        }
+        return (TabulatedFunction) obj;
     }
 
 }
