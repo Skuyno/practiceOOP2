@@ -151,12 +151,13 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     protected double interpolate(double x, int floorIndex) {
-        //проверка
-        if (x < xValues[floorIndex] || x > xValues[floorIndex + 1]) {
-            throw new InterpolationException("x находится вне интервала интерполирования.");
-        }
         Node left = getNode(floorIndex);
         Node right = left.next;
+        //проверка
+        if (x < left.x || x > right.next.x) {
+            throw new InterpolationException("x находится вне интервала интерполирования.");
+        }
+
         return left.y + (x - left.x) * (right.y - left.y) / (right.x - left.x);
     }
 

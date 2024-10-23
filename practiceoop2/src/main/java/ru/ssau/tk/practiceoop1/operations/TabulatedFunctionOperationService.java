@@ -71,6 +71,14 @@ public class TabulatedFunctionOperationService {
         return doOperation(a, b, (u, v) -> u - v);
     }
 
+    public TabulatedFunction multiply(TabulatedFunction a, TabulatedFunction b) throws InconsistentFunctionsException {
+        return doOperation(a, b, (u, v) -> u * v);
+    }
+
+    public TabulatedFunction divide(TabulatedFunction a, TabulatedFunction b) throws InconsistentFunctionsException {
+        return doOperation(a, b, (u, v) -> u / v);
+    }
+
     private interface BiOperation {
         double apply(double u, double v);
     }

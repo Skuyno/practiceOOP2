@@ -1,7 +1,10 @@
 package ru.ssau.tk.practiceoop1.functions;
+
 import java.util.Arrays;
 import java.util.Iterator;
+
 import ru.ssau.tk.practiceoop1.exceptions.InterpolationException;
+
 import java.util.NoSuchElementException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
@@ -133,9 +136,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     public void insert(double x, double y) {
         int tempX;
-        if((tempX = indexOfX(x)) != -1){
+        if ((tempX = indexOfX(x)) != -1) {
             setY(tempX, y);
-        }else {
+        } else {
             double[] xValuesTemp = new double[count + 1];
             double[] yValuesTemp = new double[count + 1];
             // Позиция вставки должна быть на 1 элемент больше
@@ -155,6 +158,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
             count++;
         }
     }
+
     @Override
     public void remove(int index) {
         if (index < 0 || index >= count) {

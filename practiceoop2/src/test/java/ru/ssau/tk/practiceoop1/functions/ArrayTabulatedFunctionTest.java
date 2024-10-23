@@ -59,7 +59,7 @@ class ArrayTabulatedFunctionTest {
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(x, y);
 
         assertThrows(InterpolationException.class, () -> {
-            function.interpolate(4.0,2);
+            function.interpolate(3.5,1);
         });
     }
 
@@ -209,5 +209,15 @@ class ArrayTabulatedFunctionTest {
         assertEquals(0, function.indexOfY(1.0));
         assertEquals(1, function.indexOfY(4.0));
         assertEquals(-1, function.indexOfY(5.0));
+    }
+
+    @Test
+    public void testToStringArrayTabulatedFunction() {
+        double[] xValues = {0.0, 0.5, 1.0};
+        double[] yValues = {0.0, 0.25, 1.0};
+        TabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        String expected = "ArrayTabulatedFunction size = 3\n[0.0; 0.0]\n[0.5; 0.25]\n[1.0; 1.0]\n";
+        assertEquals(expected, function.toString());
     }
 }
