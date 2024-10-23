@@ -10,6 +10,15 @@ import java.text.ParseException;
 import java.util.Locale;
 
 public final class FunctionsIO {
+
+    public static void serialize(BufferedOutputStream stream, TabulatedFunction function) throws IOException {
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(stream)) {
+            objectOutputStream.writeObject(function);
+            objectOutputStream.flush(); // Сбрасываем буфер
+        }
+        // Поток stream не закрывается, так как он не был создан в этом методе
+    }
+
     // Приватный конструктор, чтобы предотвратить создание экземпляров
     private FunctionsIO() {
         throw new UnsupportedOperationException("Cannot instantiate utility class");
