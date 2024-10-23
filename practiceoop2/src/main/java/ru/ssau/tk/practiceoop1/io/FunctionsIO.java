@@ -46,4 +46,18 @@ public final class FunctionsIO {
         return (TabulatedFunction) obj;
     }
 
+    public static void writeTabulatedFunction(BufferedWriter writer, TabulatedFunction function) throws IOException {
+        PrintWriter printWriter = new PrintWriter(writer);
+
+        // Записываем количество точек
+        printWriter.println(function.getCount());
+
+        // Записываем каждую пару значений x и y
+        for (int i = 0; i < function.getCount(); i++) {
+            printWriter.printf("%f %fn", function.getX(i), function.getY(i));
+        }
+
+        // Пробрасываем данные из буфера
+        printWriter.flush();
+    }
 }
