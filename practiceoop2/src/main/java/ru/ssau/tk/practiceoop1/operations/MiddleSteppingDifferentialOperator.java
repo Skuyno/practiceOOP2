@@ -17,6 +17,4 @@ public class MiddleSteppingDifferentialOperator extends SteppingDifferentialOper
             }
         };
     }
-
-
 }

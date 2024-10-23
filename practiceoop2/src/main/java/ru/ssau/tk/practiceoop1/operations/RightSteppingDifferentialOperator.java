@@ -17,6 +17,5 @@ public class RightSteppingDifferentialOperator extends SteppingDifferentialOpera
             }
         };
     }
-
-
 }
+
