@@ -37,4 +37,13 @@ public final class FunctionsIO {
         return factory.create(xValues, yValues);
     }
 
+    public static TabulatedFunction deserialize(BufferedInputStream stream) throws IOException, ClassNotFoundException {
+        ObjectInputStream objectInputStream = new ObjectInputStream(stream);
+        Object obj = objectInputStream.readObject();
+        if (!(obj instanceof TabulatedFunction)) {
+            throw new IOException("Десериализованный объект не является экземпляром TabulatedFunction.");
+        }
+        return (TabulatedFunction) obj;
+    }
+
 }
