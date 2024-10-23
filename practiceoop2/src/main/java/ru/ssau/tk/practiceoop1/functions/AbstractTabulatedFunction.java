@@ -2,7 +2,13 @@ package ru.ssau.tk.practiceoop1.functions;
 import ru.ssau.tk.practiceoop1.exceptions.ArrayIsNotSortedException;
 import ru.ssau.tk.practiceoop1.exceptions.DifferentLengthOfArraysException;
 
-public abstract class AbstractTabulatedFunction implements TabulatedFunction {
+import java.io.Serial;
+import java.io.Serializable;
+
+public abstract class AbstractTabulatedFunction implements TabulatedFunction, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -8540725052184397320L;
 
     protected double[] xValues;
     protected double[] yValues;
