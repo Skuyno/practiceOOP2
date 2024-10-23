@@ -17,4 +17,9 @@ public class LeftSteppingDifferentialOperator extends SteppingDifferentialOperat
             }
         };
     }
+
+    @Override
+    public double apply(double x) {
+        return 0;
+    }
 }

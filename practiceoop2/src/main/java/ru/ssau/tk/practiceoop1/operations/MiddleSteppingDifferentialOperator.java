@@ -17,4 +17,9 @@ public class MiddleSteppingDifferentialOperator extends SteppingDifferentialOper
             }
         };
     }
+
+    @Override
+    public double apply(double x) {
+        return 0;
+    }
 }
