@@ -44,9 +44,6 @@ public final class FunctionsIO {
     public static TabulatedFunction deserialize(BufferedInputStream stream) throws IOException, ClassNotFoundException {
         ObjectInputStream objectInputStream = new ObjectInputStream(stream);
         Object obj = objectInputStream.readObject();
-        if (!(obj instanceof TabulatedFunction)) {
-            throw new IOException("Десериализованный объект не является экземпляром TabulatedFunction.");
-        }
         return (TabulatedFunction) obj;
     }
 
@@ -101,12 +98,8 @@ public final class FunctionsIO {
 
             // Создаем и возвращаем функцию с использованием фабрики
             return factory.create(xValues, yValues);
-        } catch (IOException e) {
-            throw e; // Пробрасываем IOException
-        } catch (NumberFormatException e) {
+        } catch (IOException | NumberFormatException e) {
             throw new IOException("Ошибка формата числа", e);
         }
     }
-
-
 }
