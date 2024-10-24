@@ -15,7 +15,7 @@ public class MiddleSteppingDifferentialOperator extends SteppingDifferentialOper
 
     @Override
     public double apply(double x) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Operation not supported");
     }
 }
 

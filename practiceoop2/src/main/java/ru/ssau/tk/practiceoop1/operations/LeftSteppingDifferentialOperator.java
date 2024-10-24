@@ -16,7 +16,7 @@ public class LeftSteppingDifferentialOperator extends SteppingDifferentialOperat
 
     @Override
     public double apply(double x) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Operation not supported");
     }
 }
 
