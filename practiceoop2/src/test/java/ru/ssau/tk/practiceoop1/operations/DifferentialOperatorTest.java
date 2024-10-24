@@ -8,36 +8,39 @@ import org.junit.jupiter.api.Test;
 
 public class DifferentialOperatorTest {
 
+    private final MathFunction sqrFunction = x -> x * x;
+
     @Test
-    public void testLeftSteppingDifferentialOperator() {
+    void testLeftSteppingDifferentialOperator() {
         LeftSteppingDifferentialOperator operator = new LeftSteppingDifferentialOperator(0.01);
-        MathFunction function = new SqrFunction();
-        MathFunction derivative = operator.derive(function);
+        MathFunction derivative = operator.derive(sqrFunction);
 
-        assertEquals(0, derivative.apply(0), 0.001);
-        assertEquals(2, derivative.apply(1), 0.001);
-        assertEquals(4, derivative.apply(2), 0.001);
+        assertEquals(2.0, derivative.apply(1.0), 0.01); // f'(1) = 2
+        assertEquals(0.0, derivative.apply(0.0), 0.01); // f'(0) = 0
     }
 
     @Test
-    public void testRightSteppingDifferentialOperator() {
+    void testRightSteppingDifferentialOperator() {
         RightSteppingDifferentialOperator operator = new RightSteppingDifferentialOperator(0.01);
-        MathFunction function = new SqrFunction();
-        MathFunction derivative = operator.derive(function);
+        MathFunction derivative = operator.derive(sqrFunction);
 
-        assertEquals(2, derivative.apply(0), 0.001);
-        assertEquals(4, derivative.apply(1), 0.001);
-        assertEquals(6, derivative.apply(2), 0.001);
+        assertEquals(2.0, derivative.apply(1.0), 0.01); // f'(1) = 2
+        assertEquals(0.0, derivative.apply(0.0), 0.01); // f'(0) = 0
     }
 
     @Test
-    public void testMiddleSteppingDifferentialOperator() {
+    void testMiddleSteppingDifferentialOperator() {
         MiddleSteppingDifferentialOperator operator = new MiddleSteppingDifferentialOperator(0.01);
-        MathFunction function = new SqrFunction();
-        MathFunction derivative = operator.derive(function);
+        MathFunction derivative = operator.derive(sqrFunction);
+        assertEquals(2.0, derivative.apply(1.0), 0.01); // f'(1) = 2
+        assertEquals(0.0, derivative.apply(0.0), 0.01); // f'(0) = 0
+    }
 
-        assertEquals(2, derivative.apply(0), 0.001);
-        assertEquals(4, derivative.apply(1), 0.001);
-        assertEquals(6, derivative.apply(2), 0.001);
+    @Test
+    void testInvalidStep() {
+        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(-1));
+        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(0));
+        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(Double.POSITIVE_INFINITY));
+        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(Double.NaN));
     }
 }

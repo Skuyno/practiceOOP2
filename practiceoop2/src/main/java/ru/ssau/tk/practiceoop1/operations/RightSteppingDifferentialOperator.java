@@ -18,9 +18,6 @@ public class RightSteppingDifferentialOperator extends SteppingDifferentialOpera
         };
     }
 
-    @Override
-    public double apply(double x) {
-        return 0;
-    }
 }
+
 

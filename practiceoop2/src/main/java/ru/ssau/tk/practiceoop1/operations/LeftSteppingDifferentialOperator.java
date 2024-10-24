@@ -2,7 +2,8 @@ package ru.ssau.tk.practiceoop1.operations;
 
 import ru.ssau.tk.practiceoop1.functions.MathFunction;
 
-public class LeftSteppingDifferentialOperator extends SteppingDifferentialOperator {
+
+public abstract class LeftSteppingDifferentialOperator extends SteppingDifferentialOperator {
 
     public LeftSteppingDifferentialOperator(double step) {
         super(step);
@@ -18,8 +19,6 @@ public class LeftSteppingDifferentialOperator extends SteppingDifferentialOperat
         };
     }
 
-    @Override
-    public double apply(double x) {
-        return 0;
-    }
+
 }
+
