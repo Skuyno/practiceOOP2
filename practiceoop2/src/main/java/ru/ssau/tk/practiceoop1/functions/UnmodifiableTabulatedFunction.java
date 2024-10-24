@@ -56,6 +56,9 @@ public class UnmodifiableTabulatedFunction implements TabulatedFunction {
 
     @Override
     public double apply(double x) {
+        if (x < function.leftBound() || x >= function.rightBound()) {
+            throw new ArrayIndexOutOfBoundsException("Индекс выходит за пределы");
+        }
         return function.apply(x);
     }
 }
