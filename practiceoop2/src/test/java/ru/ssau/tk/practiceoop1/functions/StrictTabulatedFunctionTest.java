@@ -128,26 +128,26 @@ class StrictTabulatedFunctionTest {
         assertEquals(3.0, strictLinkedListFunction.rightBound());
     }
 
-//    @Test
-//    void testIterator_Array() {
-//        Iterator<Point> iterator = strictArrayFunction.iterator();
-//        assertTrue(iterator.hasNext());
-//
-//        Point p1 = iterator.next();
-//        assertEquals(1.0, p1.x);
-//        assertEquals(2.0, p1.y);
-//
-//        Point p2 = iterator.next();
-//        assertEquals(2.0, p2.x);
-//        assertEquals(4.0, p2.y);
-//
-//        Point p3 = iterator.next();
-//        assertEquals(3.0, p3.x);
-//        assertEquals(6.0, p3.y);
-//
-//        assertFalse(iterator.hasNext());
-//        assertThrows(NoSuchElementException.class, iterator::next);
-//    }
+    @Test
+    void testIterator_Array() {
+        Iterator<Point> iterator = strictArrayFunction.iterator();
+        assertTrue(iterator.hasNext());
+
+        Point p1 = iterator.next();
+        assertEquals(1.0, p1.x);
+        assertEquals(2.0, p1.y);
+
+        Point p2 = iterator.next();
+        assertEquals(2.0, p2.x);
+        assertEquals(4.0, p2.y);
+
+        Point p3 = iterator.next();
+        assertEquals(3.0, p3.x);
+        assertEquals(6.0, p3.y);
+
+        assertFalse(iterator.hasNext());
+        assertThrows(NoSuchElementException.class, iterator::next);
+    }
 
     @Test
     void testIterator_LinkedList() {
@@ -170,15 +170,15 @@ class StrictTabulatedFunctionTest {
         assertThrows(NoSuchElementException.class, iterator::next);
     }
 
-//    @Test
-//    void testExceptionOnInvalidIndex_Array() {
-//        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.getX(-1));
-//        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.getX(3));
-//        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.getY(-1));
-//        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.getY(3));
-//        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.setY(-1, 0.0));
-//        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.setY(3, 0.0));
-//    }
+    @Test
+    void testExceptionOnInvalidIndex_Array() {
+        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.getX(-1));
+        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.getX(3));
+        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.getY(-1));
+        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.getY(3));
+        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.setY(-1, 0.0));
+        assertThrows(IllegalArgumentException.class, () -> strictArrayFunction.setY(3, 0.0));
+    }
 
     @Test
     void testExceptionOnInvalidIndex_LinkedList() {

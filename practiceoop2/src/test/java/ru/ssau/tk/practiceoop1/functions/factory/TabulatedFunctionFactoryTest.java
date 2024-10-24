@@ -1,10 +1,8 @@
 package ru.ssau.tk.practiceoop1.functions.factory;
 
 import org.junit.jupiter.api.Test;
+import ru.ssau.tk.practiceoop1.functions.StrictTabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
-import ru.ssau.tk.practiceoop1.functions.factory.ArrayTabulatedFunctionFactory;
-import ru.ssau.tk.practiceoop1.functions.factory.LinkedListTabulatedFunctionFactory;
-import ru.ssau.tk.practiceoop1.functions.factory.TabulatedFunctionFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,6 +71,32 @@ public class TabulatedFunctionFactoryTest {
         assertThrows(UnsupportedOperationException.class, () -> {
             strictUnmodifiableLinkedListFunction.setY(1, -1.0);
         });
+    }
+
+    @Test
+    public void testCreateStrictWithArrayFactory() {
+        TabulatedFunctionFactory arrayFactory = new ArrayTabulatedFunctionFactory();
+        TabulatedFunction function = arrayFactory.createStrict(xValues, yValues);
+
+        assertInstanceOf(StrictTabulatedFunction.class, function, "Функция должна быть экземпляром StrictTabulatedFunction");
+        assertEquals(3, function.getCount(), "Количество точек должно быть 3");
+        for (int i = 0; i < function.getCount(); i++) {
+            assertEquals(xValues[i], function.getX(i), "X-значение должно совпадать");
+            assertEquals(yValues[i], function.getY(i), "Y-значение должно совпадать");
+        }
+    }
+
+    @Test
+    public void testCreateStrictWithLinkedListFactory() {
+        TabulatedFunctionFactory linkedListFactory = new LinkedListTabulatedFunctionFactory();
+        TabulatedFunction function = linkedListFactory.createStrict(xValues, yValues);
+
+        assertInstanceOf(StrictTabulatedFunction.class, function, "Функция должна быть экземпляром StrictTabulatedFunction");
+        assertEquals(3, function.getCount(), "Количество точек должно быть 3");
+        for (int i = 0; i < function.getCount(); i++) {
+            assertEquals(xValues[i], function.getX(i), "X-значение должно совпадать");
+            assertEquals(yValues[i], function.getY(i), "Y-значение должно совпадать");
+        }
     }
 
 }

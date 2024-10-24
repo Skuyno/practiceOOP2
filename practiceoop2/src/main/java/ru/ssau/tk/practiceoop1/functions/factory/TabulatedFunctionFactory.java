@@ -12,6 +12,11 @@ public interface TabulatedFunctionFactory {
         return new UnmodifiableTabulatedFunction(tabulatedFunction);
     }
 
+    default TabulatedFunction createStrict(double[] xValues, double[] yValues){
+        TabulatedFunction tabulatedFunction = create(xValues, yValues);
+        return new StrictTabulatedFunction(tabulatedFunction);
+    }
+
     default TabulatedFunction createStrictUnmodifiable(double[] xValues, double[] yValues) {
         TabulatedFunction tabulatedFunction = create(xValues, yValues);
         return new StrictTabulatedFunction(new UnmodifiableTabulatedFunction(tabulatedFunction));
