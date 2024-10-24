@@ -128,8 +128,8 @@ public class TabulatedFunctionOperationServiceTest {
 
     @Test
     public void testInconsistentFunctions() {
-        TabulatedFunction function1 = new ArrayTabulatedFunction(new double[]{1.0, 2.0}, new double[]{10.0, 20.0});
-        TabulatedFunction function2 = new ArrayTabulatedFunction(new double[]{1.0}, new double[]{5.0});
+        TabulatedFunction function1 = new ArrayTabulatedFunction(new double[]{1.0, 2.0, 3.0, 4.0}, new double[]{10.0, 20.0, 30.0, 40.0});
+        TabulatedFunction function2 = new ArrayTabulatedFunction(new double[]{1.0, 2.0}, new double[]{5.0, 3.0});
 
         assertThrows(InconsistentFunctionsException.class, () -> {
             new TabulatedFunctionOperationService().add(function1, function2);

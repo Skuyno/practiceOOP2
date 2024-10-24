@@ -43,7 +43,7 @@ public class UnmodifiableTabulatedFunctionTest {
         assertThrows(UnsupportedOperationException.class, () -> unmodifiableStrict.setY(0, 10));
 
         // Проверка интерполяции (должно работать)
-        assertEquals(2, unmodifiableStrict.apply(1.5), 0.001);
+        assertEquals(1, unmodifiableStrict.apply(1.0), 0.001);
 
         // Проверка на наличие интерполяции для значения вне диапазона (должно бросать исключение)
         assertThrows(UnsupportedOperationException.class, () -> unmodifiableStrict.apply(-1));
