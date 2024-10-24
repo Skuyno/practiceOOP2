@@ -1,5 +1,6 @@
 package ru.ssau.tk.practiceoop1.functions.factory;
 
+import ru.ssau.tk.practiceoop1.functions.StrictTabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.UnmodifiableTabulatedFunction;
 
@@ -9,5 +10,10 @@ public interface TabulatedFunctionFactory {
     default TabulatedFunction createUnmodifiable(double[] xValues, double[] yValues) {
         TabulatedFunction tabulatedFunction = create(xValues, yValues);
         return new UnmodifiableTabulatedFunction(tabulatedFunction);
+    }
+
+    default TabulatedFunction createStrictUnmodifiable(double[] xValues, double[] yValues) {
+        TabulatedFunction tabulatedFunction = create(xValues, yValues);
+        return new StrictTabulatedFunction(new UnmodifiableTabulatedFunction(tabulatedFunction));
     }
 }

@@ -37,4 +37,40 @@ public class TabulatedFunctionFactoryTest {
             unmodifiableLinkedListFunction.setY(1, 7.0);
         });
     }
+
+    @Test
+    public void testCreateStrictUnmodifiable() {
+        TabulatedFunctionFactory arrayFactory = new ArrayTabulatedFunctionFactory();
+        TabulatedFunction strictUnmodifiableArrayFunction = arrayFactory.createStrictUnmodifiable(xValues, yValues);
+
+        assertEquals(3, strictUnmodifiableArrayFunction.getCount());
+        assertEquals(2.0, strictUnmodifiableArrayFunction.getY(0));
+
+        // Проверка на неизменяемость
+        assertThrows(UnsupportedOperationException.class, () -> {
+            strictUnmodifiableArrayFunction.setY(0, 5.0);
+        });
+
+        // Проверка строгой модификации
+        assertThrows(IllegalArgumentException.class, () -> {
+            strictUnmodifiableArrayFunction.setY(0, -1.0);
+        });
+
+        // Проверка с другой фабрикой
+        TabulatedFunctionFactory linkedListFactory = new LinkedListTabulatedFunctionFactory();
+        TabulatedFunction strictUnmodifiableLinkedListFunction = linkedListFactory.createStrictUnmodifiable(xValues, yValues);
+
+        assertEquals(3, strictUnmodifiableLinkedListFunction.getCount());
+        assertEquals(4.0, strictUnmodifiableLinkedListFunction.getY(1));
+
+        // Проверка на неизменяемость
+        assertThrows(UnsupportedOperationException.class, () -> {
+            strictUnmodifiableLinkedListFunction.setY(1, 7.0);
+        });
+
+        // Проверка строгой модификации
+        assertThrows(IllegalArgumentException.class, () -> {
+            strictUnmodifiableLinkedListFunction.setY(1, -1.0);
+        });
+    }
 }
