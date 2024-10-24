@@ -3,7 +3,7 @@ package ru.ssau.tk.practiceoop1.operations;
 import ru.ssau.tk.practiceoop1.functions.MathFunction;
 
 
-public abstract class LeftSteppingDifferentialOperator extends SteppingDifferentialOperator {
+public class LeftSteppingDifferentialOperator extends SteppingDifferentialOperator {
 
     public LeftSteppingDifferentialOperator(double step) {
         super(step);
@@ -11,14 +11,12 @@ public abstract class LeftSteppingDifferentialOperator extends SteppingDifferent
 
     @Override
     public MathFunction derive(MathFunction function) {
-        return new MathFunction() {
-            @Override
-            public double apply(double x) {
-                return (function.apply(x) - function.apply(x - step)) / step;
-            }
-        };
+        return x -> (function.apply(x) - function.apply(x - step)) / step;
     }
 
-
+    @Override
+    public double apply(double x) {
+        throw new UnsupportedOperationException();
+    }
 }
 
