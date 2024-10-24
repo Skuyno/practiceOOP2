@@ -126,4 +126,12 @@ public class MockTabulatedFunctionTest {
         // Проверяем, что количество точек равно 2
         assertEquals(2, mockFunction.getCount());
     }
+
+    @Test
+    void testIterator() {
+        MockTabulatedFunction function = new MockTabulatedFunction();
+
+        // Проверяем, что вызов iterator() выбрасывает UnsupportedOperationException
+        assertThrows(UnsupportedOperationException.class, function::iterator);
+    }
 }
