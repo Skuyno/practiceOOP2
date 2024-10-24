@@ -7,6 +7,7 @@ import ru.ssau.tk.practiceoop1.functions.StrictTabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.UnmodifiableTabulatedFunction;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -94,10 +95,27 @@ void testApply() {
     });
 }
 
+    @Test
+    void testIterator() {
+        Iterator<Point> iterator = unmodifiable.iterator();
 
+        assertTrue(iterator.hasNext());
+        Point firstPoint = iterator.next();
+        assertEquals(0, firstPoint.x);
+        assertEquals(0, firstPoint.y);
 
+        assertTrue(iterator.hasNext());
+        Point secondPoint = iterator.next();
+        assertEquals(1, secondPoint.x);
+        assertEquals(1, secondPoint.y);
 
+        assertTrue(iterator.hasNext());
+        Point thirdPoint = iterator.next();
+        assertEquals(2, thirdPoint.x);
+        assertEquals(4, thirdPoint.y);
 
+        assertFalse(iterator.hasNext());
+    }
 
     @Test
     public void testWrappingUnmodifiableInStrict() {
