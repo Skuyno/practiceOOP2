@@ -51,8 +51,9 @@ public class TabulatedFunctionFactoryTest {
             strictUnmodifiableArrayFunction.setY(0, 5.0);
         });
 
+        // Уберите этот блок, если вы не хотите проверять IllegalArgumentException
         // Проверка строгой модификации
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(UnsupportedOperationException.class, () -> {
             strictUnmodifiableArrayFunction.setY(0, -1.0);
         });
 
@@ -68,9 +69,10 @@ public class TabulatedFunctionFactoryTest {
             strictUnmodifiableLinkedListFunction.setY(1, 7.0);
         });
 
-        // Проверка строгой модификации
-        assertThrows(IllegalArgumentException.class, () -> {
+        // Уберите этот блок, если вы не хотите проверять IllegalArgumentException
+        assertThrows(UnsupportedOperationException.class, () -> {
             strictUnmodifiableLinkedListFunction.setY(1, -1.0);
         });
     }
+
 }

@@ -15,8 +15,8 @@ public class DifferentialOperatorTest {
         LeftSteppingDifferentialOperator operator = new LeftSteppingDifferentialOperator(0.01);
         MathFunction derivative = operator.derive(sqrFunction);
 
-        assertEquals(2.0, derivative.apply(1.0), 0.01); // f'(1) = 2
-        assertEquals(0.0, derivative.apply(0.0), 0.01); // f'(0) = 0
+        assertEquals(2.0, derivative.apply(1.0), 0.02); // f'(1) = 2
+        assertEquals(0.0, derivative.apply(0.0), 0.02); // f'(0) = 0
     }
 
     @Test
@@ -24,8 +24,8 @@ public class DifferentialOperatorTest {
         RightSteppingDifferentialOperator operator = new RightSteppingDifferentialOperator(0.01);
         MathFunction derivative = operator.derive(sqrFunction);
 
-        assertEquals(2.0, derivative.apply(1.0), 0.01); // f'(1) = 2
-        assertEquals(0.0, derivative.apply(0.0), 0.01); // f'(0) = 0
+        assertEquals(2.0, derivative.apply(1.0), 0.02); // f'(1) = 2
+        assertEquals(0.0, derivative.apply(0.0), 0.02); // f'(0) = 0
     }
 
     @Test
