@@ -15,6 +15,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     // Конструктор с двумя параметрами
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("Длина таблицы меньше минимальной (2 точки).");
+        }
+
         checkLengthIsTheSame(xValues, yValues);
         checkSorted(xValues);
 
@@ -25,8 +29,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     // Конструктор с четырьмя параметрами
     public ArrayTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
-        if (count < 1) {
-            throw new IllegalArgumentException("Count must be greater than 0");
+        if (count < 2) {
+            throw new IllegalArgumentException("Длина таблицы меньше минимальной (2 точки).");
         }
 
         if (xFrom > xTo) {
@@ -87,7 +91,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     public double getX(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Index out of bounds");
+            throw new IllegalArgumentException("Индекс выходит за допустимые пределы.");
         }
         return xValues[index];
     }
@@ -95,7 +99,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     public double getY(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Index out of bounds");
+            throw new IllegalArgumentException("Индекс выходит за допустимые пределы.");
         }
         return yValues[index];
     }
@@ -103,7 +107,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     public void setY(int index, double value) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Index out of bounds");
+            throw new IllegalArgumentException("Индекс выходит за допустимые пределы.");
         }
         yValues[index] = value;
     }
@@ -166,8 +170,11 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     public void remove(int index) {
+        if (count == 2) {
+            throw new IllegalStateException("Невозможно удалить точку, кол-во элементов должно быть хотя бы 2");
+        }
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Index out of bounds");
+            throw new IndexOutOfBoundsException("Индекс выходит за допустимые пределы.");
         }
 
         double[] newXValues = new double[count - 1];
