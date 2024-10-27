@@ -14,7 +14,9 @@ public class ReadTask implements Runnable {
     public void run() {
         int count = tabulatedFunction.getCount();
         for (int i = 0; i < count; i++) {
-            System.out.printf("After read: i = %d, x = %f, y = %f%n", i, tabulatedFunction.getY(i), tabulatedFunction.getX(i));
+            synchronized (tabulatedFunction) {
+                System.out.printf("After read: i = %d, x = %f, y = %f%n", i, tabulatedFunction.getX(i), tabulatedFunction.getY(i));
+            }
         }
     }
 }
