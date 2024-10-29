@@ -1,4 +1,4 @@
-package ru.ssau.tk.practiceoop1.exeption;
+package ru.ssau.tk.practiceoop1.exception;
 
 import org.junit.jupiter.api.Test;
 import ru.ssau.tk.practiceoop1.exceptions.ArrayIsNotSortedException;
