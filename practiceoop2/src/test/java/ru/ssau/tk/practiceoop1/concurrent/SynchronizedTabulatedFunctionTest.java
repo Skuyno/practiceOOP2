@@ -2,8 +2,13 @@ package ru.ssau.tk.practiceoop1.concurrent;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.ssau.tk.practiceoop1.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.LinkedListTabulatedFunction;
+import ru.ssau.tk.practiceoop1.functions.Point;
 import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,5 +71,34 @@ public class SynchronizedTabulatedFunctionTest {
     public void testApply() {
         assertEquals(4.0, synchronizedFunction.apply(2.0));
         assertThrows(IndexOutOfBoundsException.class, () -> synchronizedFunction.apply(4.0)); // Не существует
+    }
+
+    @Test
+    void testIterator() {
+
+        // Получаем итератор
+        Iterator<Point> iterator = synchronizedFunction.iterator();
+
+        // Проверяем, что итератор корректно проходит по всем элементам
+        assertTrue(iterator.hasNext());
+        Point p1 = iterator.next();
+        assertEquals(1.0, p1.x);
+        assertEquals(2.0, p1.y);
+
+        assertTrue(iterator.hasNext());
+        Point p2 = iterator.next();
+        assertEquals(2.0, p2.x);
+        assertEquals(4.0, p2.y);
+
+        assertTrue(iterator.hasNext());
+        Point p3 = iterator.next();
+        assertEquals(3.0, p3.x);
+        assertEquals(6.0, p3.y);
+
+        // Больше элементов нет
+        assertFalse(iterator.hasNext());
+
+        // Проверка выброса исключения при вызове next() без наличия элементов
+        assertThrows(NoSuchElementException.class, iterator::next);
     }
 }

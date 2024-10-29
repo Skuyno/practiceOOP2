@@ -39,8 +39,6 @@ public class TabulatedFunctionOperationService {
         return points;
     }
 
-    ;
-
     private TabulatedFunction doOperation(TabulatedFunction a, TabulatedFunction b, BiOperation operation) throws InconsistentFunctionsException {
         if (a.getCount() != b.getCount()) {
             throw new InconsistentFunctionsException("Functions have different number of points.");
