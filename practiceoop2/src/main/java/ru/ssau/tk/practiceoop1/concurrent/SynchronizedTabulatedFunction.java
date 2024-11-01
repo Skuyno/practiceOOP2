@@ -85,4 +85,16 @@ class SynchronizedTabulatedFunction implements TabulatedFunction {
         }
     }
 
+
+    // Внутренний интерфейс Operation
+    public interface Operation<T> {
+        T apply(SynchronizedTabulatedFunction function);
+    }
+
+    // Метод doSynchronously
+    public <T> T doSynchronously(Operation<? extends T> operation) {
+        synchronized (this) {
+            return operation.apply(this);
+        }
+    }
 }
