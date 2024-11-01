@@ -7,7 +7,7 @@ import ru.ssau.tk.practiceoop1.operations.TabulatedFunctionOperationService;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class SynchronizedTabulatedFunction implements TabulatedFunction {
+public class SynchronizedTabulatedFunction implements TabulatedFunction {
     private final TabulatedFunction function;
 
     public SynchronizedTabulatedFunction(TabulatedFunction function) {
