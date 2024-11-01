@@ -13,6 +13,9 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SynchronizedTabulatedFunctionTest {
+
+
+
     private TabulatedFunction originalFunction;
     private SynchronizedTabulatedFunction synchronizedFunction;
 
@@ -101,4 +104,54 @@ public class SynchronizedTabulatedFunctionTest {
         // Проверка выброса исключения при вызове next() без наличия элементов
         assertThrows(NoSuchElementException.class, iterator::next);
     }
+
+    @Test
+    public void testDoSynchronouslyWithReturnValue() {
+        // Проверка на получение количества точек
+        int count = synchronizedFunction.doSynchronously(func -> func.getCount());
+        assertEquals(3, count);
+
+        // Проверка на получение значения Y по индексу
+        double yValue = synchronizedFunction.doSynchronously(func -> func.getY(1));
+        assertEquals(4.0, yValue);
+    }
+
+    @Test
+    public void testDoSynchronouslyWithVoid() {
+        // Изменение значения Y с использованием doSynchronously
+        synchronizedFunction.doSynchronously(func -> {
+            func.setY(0, 10.0); // Изменяем значение Y для первого элемента
+            return null; // Возвращаем null, так как это операция без возвращаемого значения
+        });
+
+        // Проверка изменения
+        assertEquals(10.0, synchronizedFunction.getY(0));
+    }
+
+    @Test
+    public void testDoSynchronouslyWithComplexOperation() {
+        // Выполняем сложную операцию: изменение значений Y и получение нового значения
+        double newYValue = synchronizedFunction.doSynchronously(func -> {
+            for (int i = 0; i < func.getCount(); i++) {
+                func.setY(i, func.getY(i) + 1); // Увеличиваем все Y на 1
+            }
+            return func.getY(1); // Возвращаем новое значение Y для второго элемента
+        });
+
+        // Проверка результата
+        assertEquals(5.0, newYValue); // Новый Y для индекса 1 должен быть 5.0 (4.0 + 1)
+    }
+
+    @Test
+    public void testDoSynchronouslyWithInvalidAccess() {
+        // Проверка на выброс исключения при обращении к несуществующему индексу
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            synchronizedFunction.doSynchronously(func -> {
+                return func.getY(3); // Индекс вне диапазона
+            });
+        });
+
+        assertNotNull(exception);
+    }
+
 }

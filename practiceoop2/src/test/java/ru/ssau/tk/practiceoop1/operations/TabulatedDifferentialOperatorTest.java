@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ru.ssau.tk.practiceoop1.concurrent.SynchronizedTabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.factory.ArrayTabulatedFunctionFactory;
@@ -11,6 +12,43 @@ import ru.ssau.tk.practiceoop1.functions.factory.LinkedListTabulatedFunctionFact
 import ru.ssau.tk.practiceoop1.functions.factory.TabulatedFunctionFactory;
 
 public class TabulatedDifferentialOperatorTest {
+
+    @Test
+    public void testDeriveSynchronously() {
+        TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
+        TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator(factory);
+
+        // Создаем тестовую табулированную функцию
+        double[] xValues = {0.0, 1.0, 2.0};
+        double[] yValues = {0.0, 1.0, 4.0};
+        TabulatedFunction function = factory.create(xValues, yValues);
+
+        // Вычисляем производную синхронно
+        TabulatedFunction derivedFunction = operator.deriveSynchronously(function);
+
+        // Проверяем значения производной
+        assertEquals(1.0, derivedFunction.getY(0), 1e-9); // Производная в точке 0 (x=0)
+        assertEquals(3.0, derivedFunction.getY(1), 1e-9); // Производная в точке 1 (x=1)
+    }
+
+    @Test
+    public void testDeriveSynchronouslyWithSynchronizedFunction() {
+        TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
+        TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator(factory);
+
+        // Создаем синхронизированную табулированную функцию
+        double[] xValues = {0.0, 1.0, 2.0};
+        double[] yValues = {0.0, 1.0, 4.0};
+        SynchronizedTabulatedFunction synchronizedFunction = new SynchronizedTabulatedFunction(factory.create(xValues, yValues));
+
+        // Вычисляем производную синхронно
+        TabulatedFunction derivedFunction = operator.deriveSynchronously(synchronizedFunction);
+
+        // Проверяем значения производной
+        assertEquals(1.0, derivedFunction.getY(0), 1e-9); // Производная в точке 0 (x=0)
+        assertEquals(3.0, derivedFunction.getY(1), 1e-9); // Производная в точке 1 (x=1)
+    }
+
     @Test
     public void testGetFactory() {
         TabulatedFunctionFactory arrayFactory = new ArrayTabulatedFunctionFactory();

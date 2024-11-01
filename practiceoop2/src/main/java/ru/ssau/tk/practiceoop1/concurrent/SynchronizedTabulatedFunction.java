@@ -7,7 +7,7 @@ import ru.ssau.tk.practiceoop1.operations.TabulatedFunctionOperationService;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class SynchronizedTabulatedFunction implements TabulatedFunction {
+public class SynchronizedTabulatedFunction implements TabulatedFunction {
     private final TabulatedFunction function;
 
     public SynchronizedTabulatedFunction(TabulatedFunction function) {
@@ -85,4 +85,16 @@ class SynchronizedTabulatedFunction implements TabulatedFunction {
         }
     }
 
+
+    // Внутренний интерфейс Operation
+    public interface Operation<T> {
+        T apply(SynchronizedTabulatedFunction function);
+    }
+
+    // Метод doSynchronously
+    public <T> T doSynchronously(Operation<? extends T> operation) {
+        synchronized (this) {
+            return operation.apply(this);
+        }
+    }
 }

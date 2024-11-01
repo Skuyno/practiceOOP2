@@ -1,9 +1,12 @@
 package ru.ssau.tk.practiceoop1.operations;
 
+import ru.ssau.tk.practiceoop1.concurrent.SynchronizedTabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.Point;
 import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
 import ru.ssau.tk.practiceoop1.functions.factory.ArrayTabulatedFunctionFactory;
 import ru.ssau.tk.practiceoop1.functions.factory.TabulatedFunctionFactory;
+
+
 
 public class TabulatedDifferentialOperator implements DifferentialOperator<TabulatedFunction> {
     private TabulatedFunctionFactory factory;
@@ -45,5 +48,19 @@ public class TabulatedDifferentialOperator implements DifferentialOperator<Tabul
     @Override
     public double apply(double x) {
         throw new UnsupportedOperationException();
+    }
+
+    public TabulatedFunction deriveSynchronously(TabulatedFunction function) {
+        // Проверяем, является ли функция уже синхронизированной
+        if (function instanceof SynchronizedTabulatedFunction) {
+            // Если да, просто вызываем derive() на данной функции
+            return derive(function);
+        } else {
+            // Если нет, оборачиваем функцию в синхронизированную обертку
+            SynchronizedTabulatedFunction synchronizedFunction = new SynchronizedTabulatedFunction(function);
+
+            // Вызываем doSynchronously() с операцией вычисления производной
+            return synchronizedFunction.doSynchronously(f -> derive(f));
+        }
     }
 }
