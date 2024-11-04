@@ -1,25 +1,29 @@
 package ru.ssau.tk.practiceoop1.concurrent;
 
-import ru.ssau.tk.practiceoop1.functions.TabulatedFunction;
+import ru.ssau.tk.practiceoop1.functions.LinkedListTabulatedFunction;
 
-public class MultiplyingTask implements Runnable{
-    private TabulatedFunction tab;
-    MultiplyingTask(TabulatedFunction tab){
-        this.tab = tab;
 
+public class MultiplyingTask implements Runnable {
+    private final LinkedListTabulatedFunction function;
+    private volatile boolean isCompleted = false; // Флаг завершения задачи
+
+    public MultiplyingTask(LinkedListTabulatedFunction function) {
+        this.function = function;
     }
 
     @Override
     public void run() {
-        int count = tab.getCount();
-        for (int i = 0; i < count; i++) {
-
-            synchronized(tab) {
-                double y = tab.getY(i);
-                tab.setY(i, y * 2);
+        for (int i = 0; i < function.getCount(); i++) {
+            synchronized (function) {
+                double y = function.getY(i);
+                function.setY(i, y * 2);
             }
         }
+        isCompleted = true; // Устанавливаем флаг завершения
+        System.out.println("Задача завершена: " + Thread.currentThread().getName());
+    }
 
-        System.out.println("Поток " + Thread.currentThread().getName() + " закончил выполнение задачи.");
+    public boolean isCompleted() {
+        return isCompleted;
     }
 }
