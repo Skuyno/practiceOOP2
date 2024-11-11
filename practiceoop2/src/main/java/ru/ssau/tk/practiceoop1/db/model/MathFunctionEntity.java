@@ -1,4 +1,4 @@
-package ru.ssau.tk.practiceoop1.functions.entities;
+package ru.ssau.tk.practiceoop1.db.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,10 +18,8 @@ public class MathFunctionEntity {
 
     private String name;
 
-    private String type; // Например, "Identity", "Sqr", "Composite" и т.д.
+    private String type;
 
     @Column(columnDefinition = "TEXT")
-    private String expression; // Аналитическое выражение функции (если есть)
-
-    // Другие поля, соответствующие вашей модели
+    private String expression;
 }
