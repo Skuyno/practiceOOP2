@@ -1,7 +1,9 @@
 package ru.ssau.tk.practiceoop1.db.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "points")

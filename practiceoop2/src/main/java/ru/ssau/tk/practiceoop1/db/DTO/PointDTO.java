@@ -1,6 +1,6 @@
 package ru.ssau.tk.practiceoop1.db.DTO;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class PointDTO {
