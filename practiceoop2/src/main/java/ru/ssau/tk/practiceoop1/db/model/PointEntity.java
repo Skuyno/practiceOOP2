@@ -17,12 +17,12 @@ public class PointEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "function")
+    @JoinColumn(name = "function_id", referencedColumnName = "id")
     private MathFunctionEntity function;
 
-    @Column(columnDefinition = "xValue")
+    @Column(name = "xValue")
     private Double x;
 
-    @Column(columnDefinition = "yValue")
+    @Column(name = "xValue")
     private Double y;
 }

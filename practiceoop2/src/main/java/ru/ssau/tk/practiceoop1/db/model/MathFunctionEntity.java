@@ -16,15 +16,15 @@ public class MathFunctionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "name")
+    @Column(name = "name")
     private String name;
 
-    @Column(columnDefinition = "count")
+    @Column(name = "count")
     private Integer count;
 
-    @Column(columnDefinition = "xFrom")
+    @Column(name = "xFrom")
     private Double xFrom;
 
-    @Column(columnDefinition = "xTo")
+    @Column(name = "xTo")
     private Double xTo;
 }
