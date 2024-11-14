@@ -23,6 +23,6 @@ public class PointEntity {
     @Column(name = "xValue")
     private Double x;
 
-    @Column(name = "xValue")
+    @Column(name = "yValue")
     private Double y;
 }
