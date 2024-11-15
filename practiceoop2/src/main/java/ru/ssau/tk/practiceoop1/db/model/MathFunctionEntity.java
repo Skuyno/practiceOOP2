@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "math_functions")
 @Data
@@ -27,4 +29,7 @@ public class MathFunctionEntity {
 
     @Column(name = "xTo")
     private Double xTo;
+
+    @OneToMany(mappedBy = "function", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PointEntity> points;
 }

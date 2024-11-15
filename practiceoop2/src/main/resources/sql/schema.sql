@@ -1,4 +1,4 @@
-CREATE SCHEMA if not exists public;
+CREATE SCHEMA IF NOT EXISTS public;
 
 CREATE TABLE math_functions (
     id SERIAL PRIMARY KEY,
@@ -10,7 +10,7 @@ CREATE TABLE math_functions (
 
 CREATE TABLE points (
     id SERIAL PRIMARY KEY,
-    function INT NOT NULL,
+    function_id INT NOT NULL,
     x DOUBLE NOT NULL,
     y DOUBLE NOT NULL,
     FOREIGN KEY (function_id) REFERENCES math_functions(id) ON DELETE CASCADE
