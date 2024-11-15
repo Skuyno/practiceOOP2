@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.ssau.tk.practiceoop1.db.DTO.PointDTO;
 import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
-import ru.ssau.tk.practiceoop1.db.model.PointEntity;
 import ru.ssau.tk.practiceoop1.db.repositories.PointRepository;
 import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
 
@@ -33,22 +32,19 @@ public class PointServiceTest {
 
     @BeforeEach
     public void setUp() {
-        function = new MathFunctionEntity();
-        function.setName("Test Function");
-        function.setCount(5);
-        function.setXFrom(0.0);
-        function.setXTo(10.0);
+        function = new MathFunctionEntity(null, "Test Function", 5, 0.0, 10.0, null);
         mathFunctionRepository.save(function);
     }
 
     @Test
     public void testCreatePoint() {
-        PointDTO pointDTO = new PointDTO();
-        pointDTO.setX(5.0);
-        pointDTO.setY(10.0);
-        pointDTO.setFunctionId(function.getId());
+        // Создаем DTO для точки
+        PointDTO pointDTO = new PointDTO(null,function.getId(),5.0, 10.0);
 
+        // Создаем точку через сервис
         PointDTO createdPoint = pointService.create(pointDTO);
+
+        // Проверка на успешное создание
         assertNotNull(createdPoint);
         assertEquals(5.0, createdPoint.getX());
         assertEquals(10.0, createdPoint.getY());
@@ -57,30 +53,30 @@ public class PointServiceTest {
 
     @Test
     public void testReadPoint() {
-        PointDTO pointDTO = new PointDTO();
-        pointDTO.setX(3.0);
-        pointDTO.setY(6.0);
-        pointDTO.setFunctionId(function.getId());
-
+        // Создаем DTO для точки
+        PointDTO pointDTO = new PointDTO(null,function.getId(),3.0, 6.0);
         PointDTO createdPoint = pointService.create(pointDTO);
+
+        // Читаем точку из сервиса
         PointDTO fetchedPoint = pointService.read(createdPoint.getId());
 
+        // Проверка на успешное извлечение
         assertNotNull(fetchedPoint);
         assertEquals(createdPoint.getId(), fetchedPoint.getId());
     }
 
     @Test
     public void testUpdatePoint() {
-        PointDTO pointDTO = new PointDTO();
-        pointDTO.setX(1.0);
-        pointDTO.setY(2.0);
-        pointDTO.setFunctionId(function.getId());
+        // Создаем DTO для точки
+        PointDTO pointDTO = new PointDTO(null,function.getId(),1.0, 2.0);
         PointDTO createdPoint = pointService.create(pointDTO);
 
+        // Обновляем значения
         createdPoint.setX(10.0);
         createdPoint.setY(20.0);
         PointDTO updatedPoint = pointService.update(createdPoint);
 
+        // Проверка на успешное обновление
         assertNotNull(updatedPoint);
         assertEquals(10.0, updatedPoint.getX());
         assertEquals(20.0, updatedPoint.getY());
@@ -88,14 +84,14 @@ public class PointServiceTest {
 
     @Test
     public void testDeletePoint() {
-        PointDTO pointDTO = new PointDTO();
-        pointDTO.setX(2.0);
-        pointDTO.setY(4.0);
-        pointDTO.setFunctionId(function.getId());
+        // Создаем DTO для точки
+        PointDTO pointDTO = new PointDTO(null,function.getId(),2.0, 4.0);
         PointDTO createdPoint = pointService.create(pointDTO);
 
+        // Удаляем точку
         pointService.delete(createdPoint.getId());
 
+        // Проверка, что точка была удалена
         assertNull(pointService.read(createdPoint.getId()));
     }
 }

@@ -13,7 +13,7 @@ import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Transactional
+
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class MathFunctionServiceTest {
@@ -26,21 +26,13 @@ public class MathFunctionServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MathFunctionEntity function = new MathFunctionEntity();
-        function.setName("Test Function");
-        function.setCount(5);
-        function.setXFrom(0.0);
-        function.setXTo(10.0);
+        MathFunctionEntity function = new MathFunctionEntity(null, "Test Function", 5, 0.0, 10.0, null);
         mathFunctionRepository.save(function);
     }
 
     @Test
     public void testCreateMathFunction() {
-        MathFunctionDTO functionDTO = new MathFunctionDTO();
-        functionDTO.setName("New Function");
-        functionDTO.setCount(3);
-        functionDTO.setXFrom(1.0);
-        functionDTO.setXTo(5.0);
+        MathFunctionDTO functionDTO = new MathFunctionDTO(null,"New Function", 3, 1.0, 5.0);
 
         MathFunctionDTO createdFunction = mathFunctionService.create(functionDTO);
         assertNotNull(createdFunction);
@@ -52,11 +44,7 @@ public class MathFunctionServiceTest {
 
     @Test
     public void testReadMathFunction() {
-        MathFunctionDTO functionDTO = new MathFunctionDTO();
-        functionDTO.setName("Read Function");
-        functionDTO.setCount(4);
-        functionDTO.setXFrom(0.0);
-        functionDTO.setXTo(10.0);
+        MathFunctionDTO functionDTO = new MathFunctionDTO(null,"Read Function", 4, 0.0, 10.0);
         MathFunctionDTO createdFunction = mathFunctionService.create(functionDTO);
 
         MathFunctionDTO fetchedFunction = mathFunctionService.read(createdFunction.getId());
@@ -66,11 +54,7 @@ public class MathFunctionServiceTest {
 
     @Test
     public void testUpdateMathFunction() {
-        MathFunctionDTO functionDTO = new MathFunctionDTO();
-        functionDTO.setName("Update Function");
-        functionDTO.setCount(2);
-        functionDTO.setXFrom(1.0);
-        functionDTO.setXTo(5.0);
+        MathFunctionDTO functionDTO = new MathFunctionDTO(null,"Update Function", 2, 1.0, 5.0);
         MathFunctionDTO createdFunction = mathFunctionService.create(functionDTO);
 
         createdFunction.setName("Updated Function");
@@ -84,11 +68,7 @@ public class MathFunctionServiceTest {
 
     @Test
     public void testDeleteMathFunction() {
-        MathFunctionDTO functionDTO = new MathFunctionDTO();
-        functionDTO.setName("Delete Function");
-        functionDTO.setCount(3);
-        functionDTO.setXFrom(0.0);
-        functionDTO.setXTo(5.0);
+        MathFunctionDTO functionDTO = new MathFunctionDTO(null,"Delete Function", 3, 0.0, 5.0);
         MathFunctionDTO createdFunction = mathFunctionService.create(functionDTO);
 
         mathFunctionService.delete(createdFunction.getId());
