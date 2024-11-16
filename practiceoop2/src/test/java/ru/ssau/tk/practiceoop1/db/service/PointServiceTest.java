@@ -9,8 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.ssau.tk.practiceoop1.db.DTO.PointDTO;
 import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
+import ru.ssau.tk.practiceoop1.db.model.PointEntity;
 import ru.ssau.tk.practiceoop1.db.repositories.PointRepository;
 import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -93,5 +96,47 @@ public class PointServiceTest {
 
         // Проверка, что точка была удалена
         assertNull(pointService.read(createdPoint.getId()));
+    }
+
+    @Test
+    public void testUpdateNonExistingPoint() {
+        PointDTO pointDTO = new PointDTO(999L, function.getId(), 10.0, 20.0);
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            pointService.update(pointDTO);
+        });
+
+        assertEquals("Point not found with id: 999", exception.getMessage());
+    }
+
+    @Test
+    public void testDeleteNonExistingPoint() {
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            pointService.delete(999L);
+        });
+
+        assertEquals("Point not found with id: 999", exception.getMessage());
+    }
+
+    @Test
+    public void testFindByFunctionEntity() {
+        MathFunctionEntity function = new MathFunctionEntity(null, "Test Function", 5, 0.0, 10.0, null);
+        MathFunctionEntity savedFunction = mathFunctionRepository.save(function);
+
+        PointEntity point1 = new PointEntity(null, savedFunction, 1.0, 2.0);
+        PointEntity point2 = new PointEntity(null, savedFunction, 3.0, 4.0);
+        pointRepository.save(point1);
+        pointRepository.save(point2);
+
+        List<PointDTO> points = pointService.findByFunction(savedFunction.getId());
+
+        assertNotNull(points);
+        assertEquals(2, points.size());
+
+        assertEquals(1.0, points.get(0).getX());
+        assertEquals(2.0, points.get(0).getY());
+
+        assertEquals(3.0, points.get(1).getX());
+        assertEquals(4.0, points.get(1).getY());
     }
 }

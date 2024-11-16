@@ -1,19 +1,17 @@
 package ru.ssau.tk.practiceoop1.db.service;
 
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
-import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
 import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@Transactional
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class MathFunctionServiceTest {
@@ -23,12 +21,6 @@ public class MathFunctionServiceTest {
 
     @Autowired
     private MathFunctionRepository mathFunctionRepository;
-
-    @BeforeEach
-    public void setUp() {
-        MathFunctionEntity function = new MathFunctionEntity(null, "Test Function", 5, 0.0, 10.0, null);
-        mathFunctionRepository.save(function);
-    }
 
     @Test
     public void testCreateMathFunction() {
@@ -75,4 +67,26 @@ public class MathFunctionServiceTest {
 
         assertNull(mathFunctionService.read(createdFunction.getId()));
     }
+
+    @Test
+    public void testUpdateNonExistingFunction() {
+        MathFunctionDTO functionDTO = new MathFunctionDTO(999L, "Non-existing Function", 10, 0.0, 10.0);
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            mathFunctionService.update(functionDTO);
+        });
+
+        assertEquals("Function not found with id: 999", exception.getMessage());
+    }
+
+    @Test
+    public void testDeleteNonExistingFunction() {
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            mathFunctionService.delete(999L);
+        });
+
+        assertEquals("Function not found with id 999", exception.getMessage());
+    }
+
+
 }
