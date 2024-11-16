@@ -120,7 +120,6 @@ public class PointServiceTest {
 
     @Test
     public void testFindByFunctionEntity() {
-        MathFunctionEntity function = new MathFunctionEntity(null, "Test Function", 5, 0.0, 10.0, null);
         MathFunctionEntity savedFunction = mathFunctionRepository.save(function);
 
         PointEntity point1 = new PointEntity(null, savedFunction, 1.0, 2.0);
