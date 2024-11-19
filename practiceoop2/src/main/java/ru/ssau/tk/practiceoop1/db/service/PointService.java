@@ -9,7 +9,6 @@ import ru.ssau.tk.practiceoop1.db.mapper.PointMapper;
 import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
 import ru.ssau.tk.practiceoop1.db.repositories.PointRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +40,6 @@ public class PointService {
                     return null;
                 });
     }
-
 
     public PointDTO create(PointDTO pointDTO) {
         PointEntity pointEntity = pointMapper.toEntity(pointDTO);

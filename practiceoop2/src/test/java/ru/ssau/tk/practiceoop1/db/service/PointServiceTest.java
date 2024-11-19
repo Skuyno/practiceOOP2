@@ -41,13 +41,10 @@ public class PointServiceTest {
 
     @Test
     public void testCreatePoint() {
-        // Создаем DTO для точки
         PointDTO pointDTO = new PointDTO(null,function.getId(),5.0, 10.0);
 
-        // Создаем точку через сервис
         PointDTO createdPoint = pointService.create(pointDTO);
 
-        // Проверка на успешное создание
         assertNotNull(createdPoint);
         assertEquals(5.0, createdPoint.getX());
         assertEquals(10.0, createdPoint.getY());
@@ -56,30 +53,24 @@ public class PointServiceTest {
 
     @Test
     public void testReadPoint() {
-        // Создаем DTO для точки
         PointDTO pointDTO = new PointDTO(null,function.getId(),3.0, 6.0);
         PointDTO createdPoint = pointService.create(pointDTO);
 
-        // Читаем точку из сервиса
         PointDTO fetchedPoint = pointService.read(createdPoint.getId());
 
-        // Проверка на успешное извлечение
         assertNotNull(fetchedPoint);
         assertEquals(createdPoint.getId(), fetchedPoint.getId());
     }
 
     @Test
     public void testUpdatePoint() {
-        // Создаем DTO для точки
         PointDTO pointDTO = new PointDTO(null,function.getId(),1.0, 2.0);
         PointDTO createdPoint = pointService.create(pointDTO);
 
-        // Обновляем значения
         createdPoint.setX(10.0);
         createdPoint.setY(20.0);
         PointDTO updatedPoint = pointService.update(createdPoint);
 
-        // Проверка на успешное обновление
         assertNotNull(updatedPoint);
         assertEquals(10.0, updatedPoint.getX());
         assertEquals(20.0, updatedPoint.getY());
@@ -87,14 +78,11 @@ public class PointServiceTest {
 
     @Test
     public void testDeletePoint() {
-        // Создаем DTO для точки
         PointDTO pointDTO = new PointDTO(null,function.getId(),2.0, 4.0);
         PointDTO createdPoint = pointService.create(pointDTO);
 
-        // Удаляем точку
         pointService.delete(createdPoint.getId());
 
-        // Проверка, что точка была удалена
         assertNull(pointService.read(createdPoint.getId()));
     }
 
@@ -119,7 +107,7 @@ public class PointServiceTest {
     }
 
     @Test
-    public void testFindByFunctionEntity() {
+    public void testFindByFunctionId() {
         MathFunctionEntity savedFunction = mathFunctionRepository.save(function);
 
         PointEntity point1 = new PointEntity(null, savedFunction, 1.0, 2.0);
