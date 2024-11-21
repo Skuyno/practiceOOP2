@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
-import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,9 +17,6 @@ public class MathFunctionServiceTest {
 
     @Autowired
     private MathFunctionService mathFunctionService;
-
-    @Autowired
-    private MathFunctionRepository mathFunctionRepository;
 
     @Test
     public void testCreateMathFunction() {
@@ -87,6 +83,4 @@ public class MathFunctionServiceTest {
 
         assertEquals("Function not found with id 999", exception.getMessage());
     }
-
-
 }
