@@ -7,6 +7,9 @@ import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
 import ru.ssau.tk.practiceoop1.db.mapper.MathFunctionMapper;
 import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class MathFunctionService {
 
@@ -17,6 +20,20 @@ public class MathFunctionService {
     public MathFunctionService(MathFunctionRepository mathFunctionRepository, MathFunctionMapper mathFunctionMapper) {
         this.mathFunctionRepository = mathFunctionRepository;
         this.mathFunctionMapper = mathFunctionMapper;
+    }
+
+    public List<MathFunctionDTO> findFunctions(String name) {
+        List<MathFunctionEntity> mathFunctionEntities;
+
+        if (name != null && !name.isEmpty()) {
+            mathFunctionEntities = mathFunctionRepository.findByName(name);
+        } else {
+            mathFunctionEntities = mathFunctionRepository.findAll();
+        }
+
+        return mathFunctionEntities.stream()
+                .map(mathFunctionMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public MathFunctionDTO create(MathFunctionDTO mathFunctionDTO) {
