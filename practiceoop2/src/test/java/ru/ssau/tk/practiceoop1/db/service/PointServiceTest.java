@@ -1,19 +1,15 @@
 package ru.ssau.tk.practiceoop1.db.service;
 
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
 import ru.ssau.tk.practiceoop1.db.DTO.PointDTO;
-import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
-import ru.ssau.tk.practiceoop1.db.model.PointEntity;
-import ru.ssau.tk.practiceoop1.db.repositories.PointRepository;
-import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
-
-import java.util.List;
+import ru.ssau.tk.practiceoop1.exceptions.PointNotFoundException;
+import ru.ssau.tk.practiceoop1.exceptions.MathFunctionNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,71 +22,74 @@ public class PointServiceTest {
     private PointService pointService;
 
     @Autowired
-    private MathFunctionRepository mathFunctionRepository;
-
-    @Autowired
-    private PointRepository pointRepository;
-
-    private MathFunctionEntity function;
-
-    @BeforeEach
-    public void setUp() {
-        function = new MathFunctionEntity(null, "Test Function", 5, 0.0, 10.0, null);
-        mathFunctionRepository.save(function);
-    }
+    private MathFunctionService mathFunctionService;
 
     @Test
     public void testCreatePoint() {
-        PointDTO pointDTO = new PointDTO(null,function.getId(),5.0, 10.0);
+        MathFunctionDTO functionDTO = new MathFunctionDTO(null, "Function", 3, 1.0, 5.0);
+        MathFunctionDTO createdFunction = mathFunctionService.create(functionDTO);
 
+        PointDTO pointDTO = new PointDTO(null, createdFunction.getId(),2.0, 3.0);
         PointDTO createdPoint = pointService.create(pointDTO);
 
         assertNotNull(createdPoint);
-        assertEquals(5.0, createdPoint.getX());
-        assertEquals(10.0, createdPoint.getY());
-        assertEquals(function.getId(), createdPoint.getFunctionId());
+        assertEquals(2.0, createdPoint.getX());
+        assertEquals(3.0, createdPoint.getY());
     }
 
     @Test
     public void testReadPoint() {
-        PointDTO pointDTO = new PointDTO(null,function.getId(),3.0, 6.0);
+        MathFunctionDTO functionDTO = new MathFunctionDTO(null, "Read Function", 4, 0.0, 10.0);
+        MathFunctionDTO createdFunction = mathFunctionService.create(functionDTO);
+
+        PointDTO pointDTO = new PointDTO(null, createdFunction.getId(),2.0, 3.0);
         PointDTO createdPoint = pointService.create(pointDTO);
 
         PointDTO fetchedPoint = pointService.read(createdPoint.getId());
-
         assertNotNull(fetchedPoint);
         assertEquals(createdPoint.getId(), fetchedPoint.getId());
     }
 
     @Test
     public void testUpdatePoint() {
-        PointDTO pointDTO = new PointDTO(null,function.getId(),1.0, 2.0);
+        MathFunctionDTO functionDTO = new MathFunctionDTO(null, "Update Function", 2, 1.0, 5.0);
+        MathFunctionDTO createdFunction = mathFunctionService.create(functionDTO);
+
+        PointDTO pointDTO = new PointDTO(null, createdFunction.getId(),1.0, 2.0);
         PointDTO createdPoint = pointService.create(pointDTO);
 
-        createdPoint.setX(10.0);
-        createdPoint.setY(20.0);
+        createdPoint.setX(3.0);
+        createdPoint.setY(4.0);
         PointDTO updatedPoint = pointService.update(createdPoint);
 
         assertNotNull(updatedPoint);
-        assertEquals(10.0, updatedPoint.getX());
-        assertEquals(20.0, updatedPoint.getY());
+        assertEquals(3.0, updatedPoint.getX());
+        assertEquals(4.0, updatedPoint.getY());
     }
 
     @Test
     public void testDeletePoint() {
-        PointDTO pointDTO = new PointDTO(null,function.getId(),2.0, 4.0);
+        MathFunctionDTO functionDTO = new MathFunctionDTO(null, "Delete Function", 3, 0.0, 5.0);
+        MathFunctionDTO createdFunction = mathFunctionService.create(functionDTO);
+
+        PointDTO pointDTO = new PointDTO(null, createdFunction.getId(), 2.0, 3.0);
         PointDTO createdPoint = pointService.create(pointDTO);
 
         pointService.delete(createdPoint.getId());
 
-        assertNull(pointService.read(createdPoint.getId()));
+        PointNotFoundException exception = assertThrows(PointNotFoundException.class, () -> {
+            pointService.read(createdPoint.getId());
+        });
+
+        assertEquals("Point not found with id: " + createdPoint.getId(), exception.getMessage());
     }
+
 
     @Test
     public void testUpdateNonExistingPoint() {
-        PointDTO pointDTO = new PointDTO(999L, function.getId(), 10.0, 20.0);
+        PointDTO pointDTO = new PointDTO(999L, 1L,1.0, 1.0);
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        PointNotFoundException exception = assertThrows(PointNotFoundException.class, () -> {
             pointService.update(pointDTO);
         });
 
@@ -99,7 +98,7 @@ public class PointServiceTest {
 
     @Test
     public void testDeleteNonExistingPoint() {
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        PointNotFoundException exception = assertThrows(PointNotFoundException.class, () -> {
             pointService.delete(999L);
         });
 
@@ -107,23 +106,11 @@ public class PointServiceTest {
     }
 
     @Test
-    public void testFindByFunctionId() {
-        MathFunctionEntity savedFunction = mathFunctionRepository.save(function);
+    public void testFindPointsForNonExistingFunction() {
+        MathFunctionNotFoundException exception = assertThrows(MathFunctionNotFoundException.class, () -> {
+            pointService.findByFunction(999L);
+        });
 
-        PointEntity point1 = new PointEntity(null, savedFunction, 1.0, 2.0);
-        PointEntity point2 = new PointEntity(null, savedFunction, 3.0, 4.0);
-        pointRepository.save(point1);
-        pointRepository.save(point2);
-
-        List<PointDTO> points = pointService.findByFunction(savedFunction.getId());
-
-        assertNotNull(points);
-        assertEquals(2, points.size());
-
-        assertEquals(1.0, points.get(0).getX());
-        assertEquals(2.0, points.get(0).getY());
-
-        assertEquals(3.0, points.get(1).getX());
-        assertEquals(4.0, points.get(1).getY());
+        assertEquals("Function not found with id: 999", exception.getMessage());
     }
 }

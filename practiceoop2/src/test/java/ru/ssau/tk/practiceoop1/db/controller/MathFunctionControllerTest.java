@@ -52,15 +52,6 @@ public class MathFunctionControllerTest {
     }
 
     @Test
-    public void testGetMathFunctionsHandlesException() {
-        when(mathFunctionService.findFunctions(any())).thenThrow(new RuntimeException());
-
-        ResponseEntity<List<MathFunctionDTO>> response = mathFunctionController.getMathFunctions(null);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
-
-    @Test
     public void testCreateMathFunctionReturnsCreated() {
         MathFunctionDTO function = new MathFunctionDTO();
         when(mathFunctionService.create(any(MathFunctionDTO.class))).thenReturn(function);
@@ -68,16 +59,6 @@ public class MathFunctionControllerTest {
         ResponseEntity<MathFunctionDTO> response = mathFunctionController.create(function);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
-
-    @Test
-    public void testCreateMathFunctionHandlesException() {
-        MathFunctionDTO function = new MathFunctionDTO();
-        when(mathFunctionService.create(any(MathFunctionDTO.class))).thenThrow(new RuntimeException());
-
-        ResponseEntity<MathFunctionDTO> response = mathFunctionController.create(function);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
@@ -110,31 +91,11 @@ public class MathFunctionControllerTest {
     }
 
     @Test
-    public void testUpdateMathFunctionReturnsNotFound() {
-        MathFunctionDTO function = new MathFunctionDTO();
-        function.setId(1L);
-        when(mathFunctionService.update(any(MathFunctionDTO.class))).thenThrow(new RuntimeException());
-
-        ResponseEntity<MathFunctionDTO> response = mathFunctionController.update(1L, function);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
     public void testDeleteMathFunctionReturnsNoContent() {
         doNothing().when(mathFunctionService).delete(anyLong());
 
         ResponseEntity<Void> response = mathFunctionController.delete(1L);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-    }
-
-    @Test
-    public void testDeleteMathFunctionReturnsNotFound() {
-        doThrow(new RuntimeException()).when(mathFunctionService).delete(anyLong());
-
-        ResponseEntity<Void> response = mathFunctionController.delete(1L);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

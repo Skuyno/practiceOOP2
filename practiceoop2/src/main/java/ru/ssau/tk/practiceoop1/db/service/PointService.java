@@ -6,8 +6,10 @@ import ru.ssau.tk.practiceoop1.db.DTO.PointDTO;
 import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
 import ru.ssau.tk.practiceoop1.db.model.PointEntity;
 import ru.ssau.tk.practiceoop1.db.mapper.PointMapper;
-import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
 import ru.ssau.tk.practiceoop1.db.repositories.PointRepository;
+import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
+import ru.ssau.tk.practiceoop1.exceptions.MathFunctionNotFoundException;
+import ru.ssau.tk.practiceoop1.exceptions.PointNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,9 +38,7 @@ public class PointService {
     public List<PointDTO> findByFunction(Long id) {
         return mathFunctionRepository.findById(id)
                 .map(this::getPointsForFunction)
-                .orElseGet(() -> {
-                    return null;
-                });
+                .orElseThrow(() -> new MathFunctionNotFoundException(id));
     }
 
     public PointDTO create(PointDTO pointDTO) {
@@ -50,7 +50,7 @@ public class PointService {
     public PointDTO read(Long id) {
         return pointRepository.findById(id)
                 .map(pointMapper::toDTO)
-                .orElse(null);
+                .orElseThrow(() -> new PointNotFoundException(id));
     }
 
     public PointDTO update(PointDTO pointDTO) {
@@ -59,14 +59,14 @@ public class PointService {
             PointEntity updatedEntity = pointRepository.save(pointEntity);
             return pointMapper.toDTO(updatedEntity);
         }
-        throw new RuntimeException("Point not found with id: " + pointDTO.getId());
+        throw new PointNotFoundException(pointDTO.getId());
     }
 
     public void delete(Long id) {
         if (pointRepository.existsById(id)) {
             pointRepository.deleteById(id);
         } else {
-            throw new RuntimeException("Point not found with id: " + id);
+            throw new PointNotFoundException(id);
         }
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/points")
 public class PointController {
+
     private final PointService pointService;
 
     @Autowired
@@ -20,27 +21,17 @@ public class PointController {
     }
 
     @GetMapping("/{functionId}")
-    public ResponseEntity<List<PointDTO>> getAllPoints(@PathVariable @RequestParam(required = true) Long functionId) {
-        try {
-            List<PointDTO> result = pointService.findByFunction(functionId);
-
-            return result.isEmpty()
-                    ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                    : new ResponseEntity<>(result, HttpStatus.OK);
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<List<PointDTO>> getAllPoints(@PathVariable Long functionId) {
+        List<PointDTO> result = pointService.findByFunction(functionId);
+        return result.isEmpty()
+                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<PointDTO> create(@RequestBody PointDTO pointDTO) {
-        try {
-            PointDTO createdPoint = pointService.create(pointDTO);
-            return new ResponseEntity<>(createdPoint, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        PointDTO createdPoint = pointService.create(pointDTO);
+        return new ResponseEntity<>(createdPoint, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -53,22 +44,14 @@ public class PointController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PointDTO> update(@PathVariable Long id, @RequestBody PointDTO pointDTO) {
-        try {
-            pointDTO.setId(id);
-            PointDTO updatedPoint = pointService.update(pointDTO);
-            return new ResponseEntity<>(updatedPoint, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        pointDTO.setId(id);
+        PointDTO updatedPoint = pointService.update(pointDTO);
+        return new ResponseEntity<>(updatedPoint, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        try {
-            pointService.delete(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        pointService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

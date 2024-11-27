@@ -56,15 +56,6 @@ public class PointControllerTest {
     }
 
     @Test
-    public void testGetAllPointsHandlesException() {
-        when(pointService.findByFunction(anyLong())).thenThrow(new RuntimeException());
-
-        ResponseEntity<List<PointDTO>> response = pointController.getAllPoints(anyLong());
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
-
-    @Test
     public void testCreatePointSuccess() {
         PointDTO pointDTO = new PointDTO(null, 1L, 2.0, 3.0);
         PointDTO createdPoint = new PointDTO(1L, 1L, 2.0, 3.0);
@@ -75,16 +66,6 @@ public class PointControllerTest {
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(createdPoint, response.getBody());
-    }
-
-    @Test
-    public void testCreatePointBadRequest() {
-        PointDTO pointDTO = new PointDTO();
-        when(pointService.create(any(PointDTO.class))).thenThrow(new RuntimeException());
-
-        ResponseEntity<PointDTO> response = pointController.create(pointDTO);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
@@ -125,18 +106,6 @@ public class PointControllerTest {
     }
 
     @Test
-    public void testUpdatePointNotFound() {
-        Long id = 1L;
-        PointDTO pointDTO = new PointDTO(id, 1L, 2.0, 3.0);
-
-        when(pointService.update(any(PointDTO.class))).thenThrow(new RuntimeException());
-
-        ResponseEntity<PointDTO> response = pointController.update(id, pointDTO);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
     public void testDeletePointSuccess() {
         Long id = 1L;
 
@@ -145,16 +114,5 @@ public class PointControllerTest {
         ResponseEntity<Void> response = pointController.delete(id);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-    }
-
-    @Test
-    public void testDeletePointNotFound() {
-        Long id = 1L;
-
-        doThrow(new RuntimeException()).when(pointService).delete(id);
-
-        ResponseEntity<Void> response = pointController.delete(id);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

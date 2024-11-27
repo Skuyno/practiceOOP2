@@ -6,6 +6,7 @@ import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
 import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
 import ru.ssau.tk.practiceoop1.db.mapper.MathFunctionMapper;
 import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
+import ru.ssau.tk.practiceoop1.exceptions.MathFunctionNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,7 +46,7 @@ public class MathFunctionService {
     public MathFunctionDTO read(Long id) {
         return mathFunctionRepository.findById(id)
                 .map(mathFunctionMapper::toDTO)
-                .orElse(null);
+                .orElseThrow(() -> new MathFunctionNotFoundException(id));
     }
 
     public MathFunctionDTO update(MathFunctionDTO mathFunctionDTO) {
@@ -54,14 +55,14 @@ public class MathFunctionService {
             MathFunctionEntity updatedEntity = mathFunctionRepository.save(mathFunctionEntity);
             return mathFunctionMapper.toDTO(updatedEntity);
         }
-        throw new RuntimeException("Function not found with id: " + mathFunctionDTO.getId());
+        throw new MathFunctionNotFoundException(mathFunctionDTO.getId());
     }
 
     public void delete(Long id) {
         if (mathFunctionRepository.existsById(id)) {
             mathFunctionRepository.deleteById(id);
         } else {
-            throw new RuntimeException("Function not found with id " + id);
+            throw new MathFunctionNotFoundException(id);
         }
     }
 }

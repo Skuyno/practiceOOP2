@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
 import ru.ssau.tk.practiceoop1.db.service.MathFunctionService;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -23,24 +22,16 @@ public class MathFunctionController {
 
     @GetMapping("list")
     public ResponseEntity<List<MathFunctionDTO>> getMathFunctions(@RequestParam(required = false) String name) {
-        try {
-            List<MathFunctionDTO> result = mathFunctionService.findFunctions(name);
-            return result.isEmpty()
-                    ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                    : new ResponseEntity<>(result, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<MathFunctionDTO> result = mathFunctionService.findFunctions(name);
+        return result.isEmpty()
+                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<MathFunctionDTO> create(@RequestBody MathFunctionDTO mathFunctionDTO) {
-        try {
-            MathFunctionDTO createdFunction = mathFunctionService.create(mathFunctionDTO);
-            return new ResponseEntity<>(createdFunction, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        MathFunctionDTO createdFunction = mathFunctionService.create(mathFunctionDTO);
+        return new ResponseEntity<>(createdFunction, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -53,22 +44,15 @@ public class MathFunctionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<MathFunctionDTO> update(@PathVariable Long id, @RequestBody MathFunctionDTO mathFunctionDTO) {
-        try {
-            mathFunctionDTO.setId(id);
-            MathFunctionDTO updatedFunction = mathFunctionService.update(mathFunctionDTO);
-            return new ResponseEntity<>(updatedFunction, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        mathFunctionDTO.setId(id);
+        MathFunctionDTO updatedFunction = mathFunctionService.update(mathFunctionDTO);
+        return new ResponseEntity<>(updatedFunction, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        try {
-            mathFunctionService.delete(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        mathFunctionService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
+
