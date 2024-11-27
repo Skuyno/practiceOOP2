@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
 import ru.ssau.tk.practiceoop1.db.service.MathFunctionService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -58,8 +59,6 @@ public class MathFunctionController {
             return new ResponseEntity<>(updatedFunction, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -70,8 +69,6 @@ public class MathFunctionController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

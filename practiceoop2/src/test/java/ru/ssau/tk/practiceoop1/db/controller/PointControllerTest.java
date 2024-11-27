@@ -15,7 +15,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class PointControllerTest {
@@ -57,9 +56,12 @@ public class PointControllerTest {
     }
 
     @Test
-    public void testGetAllPointsBadRequest() {
-        ResponseEntity<List<PointDTO>> response = pointController.getAllPoints(null);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    public void testGetAllPointsHandlesException() {
+        when(pointService.findByFunction(anyLong())).thenThrow(new RuntimeException());
+
+        ResponseEntity<List<PointDTO>> response = pointController.getAllPoints(anyLong());
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
     @Test
@@ -77,7 +79,8 @@ public class PointControllerTest {
 
     @Test
     public void testCreatePointBadRequest() {
-        PointDTO pointDTO = new PointDTO(); // Предположим, что это некорректный объект
+        PointDTO pointDTO = new PointDTO();
+        when(pointService.create(any(PointDTO.class))).thenThrow(new RuntimeException());
 
         ResponseEntity<PointDTO> response = pointController.create(pointDTO);
 
@@ -134,18 +137,6 @@ public class PointControllerTest {
     }
 
     @Test
-    public void testUpdatePointInternalServerError() {
-        Long id = 1L;
-        PointDTO pointDTO = new PointDTO(id, 1L, 2.0, 3.0);
-
-        when(pointService.update(any(PointDTO.class))).thenThrow(new Exception());
-
-        ResponseEntity<PointDTO> response = pointController.update(id, pointDTO);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
-
-    @Test
     public void testDeletePointSuccess() {
         Long id = 1L;
 
@@ -165,16 +156,5 @@ public class PointControllerTest {
         ResponseEntity<Void> response = pointController.delete(id);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
-    public void testDeletePointInternalServerError() {
-        Long id = 1L;
-
-        doThrow(new Exception()).when(pointService).delete(id);
-
-        ResponseEntity<Void> response = pointController.delete(id);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 }

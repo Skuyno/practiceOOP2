@@ -20,12 +20,8 @@ public class PointController {
     }
 
     @GetMapping("/{functionId}")
-    public ResponseEntity<List<PointDTO>> getAllPoints(@RequestParam(required = false) Long functionId) {
+    public ResponseEntity<List<PointDTO>> getAllPoints(@PathVariable @RequestParam(required = true) Long functionId) {
         try {
-            if (functionId == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-
             List<PointDTO> result = pointService.findByFunction(functionId);
 
             return result.isEmpty()
@@ -63,8 +59,6 @@ public class PointController {
             return new ResponseEntity<>(updatedPoint, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -75,8 +69,6 @@ public class PointController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

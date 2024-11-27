@@ -121,17 +121,6 @@ public class MathFunctionControllerTest {
     }
 
     @Test
-    public void testUpdateMathFunctionHandlesException() {
-        MathFunctionDTO function = new MathFunctionDTO();
-        function.setId(1L);
-        when(mathFunctionService.update(any(MathFunctionDTO.class))).thenThrow(new RuntimeException());
-
-        ResponseEntity<MathFunctionDTO> response = mathFunctionController.update(1L, function);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
-
-    @Test
     public void testDeleteMathFunctionReturnsNoContent() {
         doNothing().when(mathFunctionService).delete(anyLong());
 
@@ -147,14 +136,5 @@ public class MathFunctionControllerTest {
         ResponseEntity<Void> response = mathFunctionController.delete(1L);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
-    public void testDeleteMathFunctionHandlesException() {
-        doThrow(new RuntimeException("Deletion failed")).when(mathFunctionService).delete(anyLong());
-
-        ResponseEntity<Void> response = mathFunctionController.delete(1L);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 }
