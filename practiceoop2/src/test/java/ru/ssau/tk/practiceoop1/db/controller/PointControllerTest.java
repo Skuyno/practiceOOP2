@@ -45,17 +45,6 @@ public class PointControllerTest {
     }
 
     @Test
-    public void testGetAllPointsNoContent() {
-        Long functionId = 1L;
-
-        when(pointService.findByFunction(functionId)).thenReturn(new ArrayList<>());
-
-        ResponseEntity<List<PointDTO>> response = pointController.getAllPoints(functionId);
-
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-    }
-
-    @Test
     public void testCreatePointSuccess() {
         PointDTO pointDTO = new PointDTO(null, 1L, 2.0, 3.0);
         PointDTO createdPoint = new PointDTO(1L, 1L, 2.0, 3.0);
@@ -79,17 +68,6 @@ public class PointControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(point, response.getBody());
-    }
-
-    @Test
-    public void testReadPointNotFound() {
-        Long id = 1L;
-
-        when(pointService.read(id)).thenReturn(null);
-
-        ResponseEntity<PointDTO> response = pointController.read(id);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test

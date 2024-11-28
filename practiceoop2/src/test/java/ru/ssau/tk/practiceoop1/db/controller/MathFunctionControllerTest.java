@@ -72,14 +72,6 @@ public class MathFunctionControllerTest {
     }
 
     @Test
-    public void testReadMathFunctionReturnsNotFound() {
-        when(mathFunctionService.read(anyLong())).thenReturn(null);
-
-        ResponseEntity<MathFunctionDTO> response = mathFunctionController.read(1L);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
     public void testUpdateMathFunctionReturnsOk() {
         MathFunctionDTO function = new MathFunctionDTO();
         function.setId(1L);

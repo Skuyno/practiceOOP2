@@ -37,9 +37,7 @@ public class MathFunctionController {
     @GetMapping("/{id}")
     public ResponseEntity<MathFunctionDTO> read(@PathVariable Long id) {
         MathFunctionDTO function = mathFunctionService.read(id);
-        return function != null
-                ? new ResponseEntity<>(function, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(function, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

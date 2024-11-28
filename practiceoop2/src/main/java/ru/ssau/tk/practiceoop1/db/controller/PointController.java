@@ -23,9 +23,7 @@ public class PointController {
     @GetMapping("/{functionId}")
     public ResponseEntity<List<PointDTO>> getAllPoints(@PathVariable Long functionId) {
         List<PointDTO> result = pointService.findByFunction(functionId);
-        return result.isEmpty()
-                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                : new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping()
@@ -37,9 +35,7 @@ public class PointController {
     @GetMapping("/{id}")
     public ResponseEntity<PointDTO> read(@PathVariable Long id) {
         PointDTO point = pointService.read(id);
-        return point != null
-                ? new ResponseEntity<>(point, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(point, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
