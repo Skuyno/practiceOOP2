@@ -15,3 +15,15 @@ CREATE TABLE points (
     y DOUBLE NOT NULL,
     FOREIGN KEY (function_id) REFERENCES math_functions(id) ON DELETE CASCADE
 );
+
+CREATE TABLE users (
+    username VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
+    enabled BOOLEAN NOT NULL
+);
+
+CREATE TABLE authorities (
+    username VARCHAR(50),
+    authority VARCHAR(50),
+    FOREIGN KEY (username) REFERENCES users(username)
+);
