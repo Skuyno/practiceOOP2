@@ -17,13 +17,8 @@ CREATE TABLE points (
 );
 
 CREATE TABLE users (
-    username VARCHAR(50) PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    enabled BOOLEAN NOT NULL
-);
-
-CREATE TABLE authorities (
-    username VARCHAR(50),
-    authority VARCHAR(50),
-    FOREIGN KEY (username) REFERENCES users(username)
+    role VARCHAR(50) NOT NULL
 );
