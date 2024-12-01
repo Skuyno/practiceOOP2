@@ -1,30 +1,25 @@
 package ru.ssau.tk.practiceoop1.db.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder; // Используйте интерфейс PasswordEncoder
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.practiceoop1.db.model.UserEntity;
 import ru.ssau.tk.practiceoop1.db.repositories.UserRepository;
+import ru.ssau.tk.practiceoop1.db.security.CustomUserDetails;
 import ru.ssau.tk.practiceoop1.exceptions.UserNotFoundException;
-
-import java.util.Collections;
 
 @Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder; // Инжектируем интерфейс PasswordEncoder
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder; // Spring инжектирует бин PasswordEncoder
     }
 
     @Transactional
@@ -32,27 +27,25 @@ public class UserService implements UserDetailsService {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Username already taken");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Шифруем пароль
+        return userRepository.save(user); // Сохраняем в базе данных
     }
 
+    @Transactional
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+                .orElseThrow(() -> new UserNotFoundException(username)); // Выбрасываем исключение, если пользователь не найден
     }
 
-    public void delete(String username){
-        if (userRepository.existsByUsername(username)) {
-            userRepository.deleteByUsername(username);
-        } else {
-            throw new UserNotFoundException(username);
-        }
+    @Transactional
+    public void delete(String username) {
+        userRepository.deleteByUsername(username); // Удаляем из базы
     }
 
+    // Загружаем пользователя для аутентификации
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public CustomUserDetails loadUserByUsername(String username) {
         UserEntity user = findByUsername(username);
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().name());
-        return new User(user.getUsername(), user.getPassword(), Collections.singletonList(authority));
+        return CustomUserDetails.build(user); // Создаем CustomUserDetails для аутентификации
     }
 }
