@@ -156,7 +156,5 @@ public class AuthControllerTest {
                 .andExpect(content().string("User deleted successfully!"));
 
         assertFalse(userRepository.existsByUsername(username));
-
-        throw new IllegalArgumentException(token);
     }
 }
