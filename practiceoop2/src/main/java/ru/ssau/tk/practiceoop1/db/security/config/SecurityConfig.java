@@ -51,8 +51,10 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/auth/**").permitAll()  // Открытый доступ для аутентификации (например, login)
-                                .requestMatchers(HttpMethod.GET, "/api/public/**").permitAll()  // Публичные GET запросы
-                                .requestMatchers(HttpMethod.POST, "/api/private/**").authenticated()  // Защищенные POST запросы
+                                .requestMatchers(HttpMethod.GET, "/api/functions/**", "/api/points/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/functions/**", "/api/points/**").authenticated()
+                                .requestMatchers(HttpMethod.PUT, "/api/functions/**", "/api/points/**").authenticated()
+                                .requestMatchers(HttpMethod.DELETE, "/api/functions/**", "/api/points/**").authenticated()
                                 .anyRequest().authenticated()  // Все остальные запросы требуют авторизации
                 )
                 .sessionManagement(session -> session

@@ -20,7 +20,7 @@ public class PointController {
         this.pointService = pointService;
     }
 
-    @GetMapping("/{functionId}")
+    @GetMapping("/functions/{functionId}")
     public ResponseEntity<List<PointDTO>> getAllPoints(@PathVariable Long functionId) {
         List<PointDTO> result = pointService.findByFunction(functionId);
         return new ResponseEntity<>(result, HttpStatus.OK);
