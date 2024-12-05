@@ -76,5 +76,28 @@ class CustomUserDetailsTest {
     void testIsEnabled() {
         assertTrue(customUserDetails.isEnabled());
     }
-}
 
+    // Дополнительные тесты для проверки всех методов интерфейса UserDetails
+
+    @Test
+    void testGetId() {
+        assertEquals(1, customUserDetails.getId());
+    }
+
+    @Test
+    void testEqualsAndHashCode() {
+        CustomUserDetails anotherUser = CustomUserDetails.build(userEntity);
+        assertEquals(customUserDetails, anotherUser);
+        assertEquals(customUserDetails.hashCode(), anotherUser.hashCode());
+
+        UserEntity differentUserEntity = Mockito.mock(UserEntity.class);
+        Mockito.when(differentUserEntity.getId()).thenReturn(2);
+        Mockito.when(differentUserEntity.getUsername()).thenReturn("differentUser");
+        Mockito.when(differentUserEntity.getPassword()).thenReturn("differentPassword");
+        Mockito.when(differentUserEntity.getRole()).thenReturn(UserRole.ADMIN); // другой роль
+
+        CustomUserDetails differentCustomUserDetails = CustomUserDetails.build(differentUserEntity);
+
+        assertNotEquals(customUserDetails, differentCustomUserDetails);
+    }
+}
