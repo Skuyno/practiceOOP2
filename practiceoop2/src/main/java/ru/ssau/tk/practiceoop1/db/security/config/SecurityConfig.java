@@ -10,13 +10,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource;
 import ru.ssau.tk.practiceoop1.db.security.JwtFilter;
 import ru.ssau.tk.practiceoop1.db.service.UserService;
+
+import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig {
@@ -34,8 +38,8 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider(@Autowired UserService userDetailsService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);  // Указываем наш сервис для работы с данными пользователя
-        authProvider.setPasswordEncoder(passwordEncoder());  // Указываем наш парольный энкодер
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
 
@@ -45,9 +49,33 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        
+        // Разрешённые источники
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        
+        // Разрешённые HTTP методы
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        
+        // Разрешённые заголовки
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        
+        // Разрешить учётные данные (например, куки)
+        configuration.setAllowCredentials(true);
+        
+        // Применение к URL паттернам
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)  // Отключаем CSRF, потому что не используем сессии
+                .cors()
+                .and()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/auth/**").permitAll()  // Открытый доступ для аутентификации (например, login)

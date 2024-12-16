@@ -1,4 +1,4 @@
-package ru.ssau.tk.practiceoop1.exceptions;
+package ru.ssau.tk.practiceoop1.db.exceptions;
 
 public class MathFunctionNotFoundException extends RuntimeException {
     public MathFunctionNotFoundException(Long id) {

@@ -13,7 +13,7 @@ import ru.ssau.tk.practiceoop1.db.security.JwtResponse;
 import ru.ssau.tk.practiceoop1.db.security.JwtTokenProvider;
 import ru.ssau.tk.practiceoop1.db.security.LoginRequest;
 import ru.ssau.tk.practiceoop1.db.service.UserService;
-import ru.ssau.tk.practiceoop1.exceptions.UserNotFoundException;
+import ru.ssau.tk.practiceoop1.db.exceptions.UserNotFoundException;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,12 +26,8 @@ public class AuthController {
 
     @PostMapping("register")
     public ResponseEntity<String> registerUser(@RequestBody UserEntity user) {
-        try {
-            userService.register(user);
-            return ResponseEntity.ok("User registered successfully!");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body("Error: Username is already taken!");
-        }
+        userService.register(user);
+        return ResponseEntity.ok("User registered successfully!");
     }
 
     @PostMapping("login")

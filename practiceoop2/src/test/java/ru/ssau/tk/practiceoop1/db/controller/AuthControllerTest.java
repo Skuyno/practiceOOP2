@@ -49,12 +49,11 @@ public class AuthControllerTest {
     @Test
     public void testRegisterUserSuccess() throws Exception {
         String username = "testuser1";
-        String password = "Test@123";
-        String role = "USER";
+        String password = "Test@123";;
 
         mockMvc.perform(post(BASE_URL + "register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\": \"" + username + "\", \"password\": \"" + password + "\", \"role\": \"" + role + "\"}"))
+                        .content("{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User registered successfully!"));
 
@@ -68,7 +67,6 @@ public class AuthControllerTest {
     public void testRegisterUserWithExistingUsername() throws Exception {
         String existingUsername = "testuser2";
         String password = "Test@123";
-        String role = "USER";
 
         UserEntity existingUser = new UserEntity();
         existingUser.setUsername(existingUsername);
@@ -78,7 +76,7 @@ public class AuthControllerTest {
 
         mockMvc.perform(post(BASE_URL + "register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\": \"" + existingUsername + "\", \"password\": \"" + password + "\", \"role\": \"" + role + "\"}"))
+                        .content("{\"username\": \"" + existingUsername + "\", \"password\": \"" + password + "\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Error: Username is already taken!"));
     }
@@ -91,7 +89,6 @@ public class AuthControllerTest {
         UserEntity user = new UserEntity();
         user.setUsername(username);
         user.setPassword(password);
-        user.setRole(UserRole.USER);
 
         userService.register(user);
 
@@ -126,11 +123,11 @@ public class AuthControllerTest {
     public void testDeleteUserSuccessWithJwt() throws Exception {
         String username = "testuser5";
         String password = "Test@123";
-        String role = "USER";
+
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\": \"" + username + "\", \"password\": \"" + password + "\", \"role\": \"" + role+ "\"}"))
+                        .content("{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User registered successfully!"));
 

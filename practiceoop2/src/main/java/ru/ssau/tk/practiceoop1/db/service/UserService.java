@@ -6,9 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder; // Используйте интерфейс PasswordEncoder
 import org.springframework.stereotype.Service;
 import ru.ssau.tk.practiceoop1.db.model.UserEntity;
+import ru.ssau.tk.practiceoop1.db.model.UserRole;
 import ru.ssau.tk.practiceoop1.db.repositories.UserRepository;
 import ru.ssau.tk.practiceoop1.db.security.CustomUserDetails;
-import ru.ssau.tk.practiceoop1.exceptions.UserNotFoundException;
+import ru.ssau.tk.practiceoop1.db.exceptions.UserNotFoundException;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -25,9 +26,10 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserEntity register(UserEntity user) {
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("Username already taken");
+            throw new IllegalArgumentException("Username is already taken!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword())); // Шифруем пароль
+        user.setRole(UserRole.USER);
         return userRepository.save(user); // Сохраняем в базе данных
     }
 

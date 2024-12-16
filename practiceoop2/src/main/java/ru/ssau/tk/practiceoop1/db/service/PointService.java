@@ -8,8 +8,8 @@ import ru.ssau.tk.practiceoop1.db.model.PointEntity;
 import ru.ssau.tk.practiceoop1.db.mapper.PointMapper;
 import ru.ssau.tk.practiceoop1.db.repositories.PointRepository;
 import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
-import ru.ssau.tk.practiceoop1.exceptions.MathFunctionNotFoundException;
-import ru.ssau.tk.practiceoop1.exceptions.PointNotFoundException;
+import ru.ssau.tk.practiceoop1.db.exceptions.MathFunctionNotFoundException;
+import ru.ssau.tk.practiceoop1.db.exceptions.PointNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;

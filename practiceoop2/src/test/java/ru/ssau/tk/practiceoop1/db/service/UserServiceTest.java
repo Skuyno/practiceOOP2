@@ -10,7 +10,7 @@ import ru.ssau.tk.practiceoop1.db.model.UserEntity;
 import ru.ssau.tk.practiceoop1.db.model.UserRole;
 import ru.ssau.tk.practiceoop1.db.repositories.UserRepository;
 import ru.ssau.tk.practiceoop1.db.security.CustomUserDetails;
-import ru.ssau.tk.practiceoop1.exceptions.UserNotFoundException;
+import ru.ssau.tk.practiceoop1.db.exceptions.UserNotFoundException;
 
 import java.util.Optional;
 

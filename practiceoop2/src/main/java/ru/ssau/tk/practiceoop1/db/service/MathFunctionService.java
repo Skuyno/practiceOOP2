@@ -6,7 +6,7 @@ import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
 import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
 import ru.ssau.tk.practiceoop1.db.mapper.MathFunctionMapper;
 import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
-import ru.ssau.tk.practiceoop1.exceptions.MathFunctionNotFoundException;
+import ru.ssau.tk.practiceoop1.db.exceptions.MathFunctionNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;

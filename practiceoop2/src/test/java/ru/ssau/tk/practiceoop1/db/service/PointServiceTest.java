@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
 import ru.ssau.tk.practiceoop1.db.DTO.PointDTO;
-import ru.ssau.tk.practiceoop1.exceptions.PointNotFoundException;
-import ru.ssau.tk.practiceoop1.exceptions.MathFunctionNotFoundException;
+import ru.ssau.tk.practiceoop1.db.exceptions.PointNotFoundException;
+import ru.ssau.tk.practiceoop1.db.exceptions.MathFunctionNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

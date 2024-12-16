@@ -1,4 +1,4 @@
-package ru.ssau.tk.practiceoop1.exceptions;
+package ru.ssau.tk.practiceoop1.db.exceptions;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
-@SpringBootApplication
 public class GlobalExceptionHandler {
 
     // Обработчик для PointNotFoundException
