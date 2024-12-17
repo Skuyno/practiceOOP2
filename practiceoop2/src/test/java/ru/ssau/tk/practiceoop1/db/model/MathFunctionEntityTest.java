@@ -12,8 +12,8 @@ class MathFunctionEntityTest {
         assertEquals(1L, function.getId());
         assertEquals("Test Function", function.getName());
         assertEquals(3, function.getCount());
-        assertEquals(0.0, function.getXFrom());
-        assertEquals(10.0, function.getXTo());
+        assertEquals(0.0, function.getX_from());
+        assertEquals(10.0, function.getX_to());
     }
 
     @Test
@@ -22,13 +22,13 @@ class MathFunctionEntityTest {
         function.setId(2L);
         function.setName("Updated Function");
         function.setCount(5);
-        function.setXFrom(1.0);
-        function.setXTo(20.0);
+        function.setX_from(1.0);
+        function.setX_to(20.0);
 
         assertEquals(2L, function.getId());
         assertEquals("Updated Function", function.getName());
         assertEquals(5, function.getCount());
-        assertEquals(1.0, function.getXFrom());
-        assertEquals(20.0, function.getXTo());
+        assertEquals(1.0, function.getX_from());
+        assertEquals(20.0, function.getX_to());
     }
 }

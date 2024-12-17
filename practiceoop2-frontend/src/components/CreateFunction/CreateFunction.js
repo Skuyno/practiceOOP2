@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 import FunctionForm from './FunctionForm';
 import FunctionTable from './FunctionTable';
-import ErrorModal from './ErrorModal';
 import api from '../../api';
-import { Button, Modal } from 'react-bootstrap';
 
 const CreateFunction = () => {
     const [numPoints, setNumPoints] = useState(0);
     const [points, setPoints] = useState([]);
+    const [functionName, setFunctionName] = useState('');
+    const [x_from, setXFrom] = useState('');
+    const [x_to, setXTo] = useState('');
     const [showTable, setShowTable] = useState(false);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
-    const handleSetNumPoints = (number) => {
+    const handleSetFunctionData = ({ functionName, number }) => {
+        setFunctionName(functionName);
         setNumPoints(number);
         setPoints(Array.from({ length: number }, () => ({ x: '', y: '' })));
         setShowTable(true);
@@ -33,15 +36,35 @@ const CreateFunction = () => {
                 throw new Error("Все значения x и y должны быть числами.");
             }
 
-            const response = await api.post('/functions/tabulated-functions', {
-                x: xValues,
-                y: yValues
-            });
+            const x_from = Math.min(...xValues);
+            const x_to = Math.max(...xValues);
 
-            alert('TabulatedFunction успешно создана!');
+            const mathFunctionData = {
+                name: functionName,
+                count: numPoints,
+                x_from: parseFloat(x_from),
+                x_to: parseFloat(x_to),
+            };
+
+            const response = await api.post('/functions', mathFunctionData);
+            const functionId = response.data.id;
+
+            for (let i = 0; i < points.length; i++) {
+                const pointData = {
+                    functionId,
+                    x: parseFloat(points[i].x),
+                    y: parseFloat(points[i].y),
+                };
+                await api.post('/points', pointData);
+            }
+
+            alert('Табулированная функция успешно создана!');
             setShowTable(false);
             setNumPoints(0);
             setPoints([]);
+            setFunctionName('');
+            setXFrom('');
+            setXTo('');
         } catch (err) {
             setError(err.response?.data || err.message);
             setShowModal(true);
@@ -54,7 +77,6 @@ const CreateFunction = () => {
 
     return (
         <>
-            <FunctionForm onSubmit={handleSetNumPoints} />
             {showTable && (
                 <>
                     <FunctionTable points={points} onChange={handleChange} />

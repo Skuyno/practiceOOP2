@@ -11,6 +11,6 @@ public class MathFunctionDTO {
     private Long id;
     private String name;
     private Integer count;
-    private Double xFrom;
-    private Double xTo;
+    private Double x_from;
+    private Double x_to;
 }

@@ -14,8 +14,8 @@ public class MathFunctionMapper {
         entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setCount(dto.getCount());
-        entity.setXFrom(dto.getXFrom());
-        entity.setXTo(dto.getXTo());
+        entity.setX_from(dto.getX_from());
+        entity.setX_to(dto.getX_to());
         return entity;
     }
     public MathFunctionDTO toDTO(MathFunctionEntity entity){
@@ -26,8 +26,8 @@ public class MathFunctionMapper {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setCount(entity.getCount());
-        dto.setXFrom(entity.getXFrom());
-        dto.setXTo(entity.getXTo());
+        dto.setX_from(entity.getX_from());
+        dto.setX_to(entity.getX_to());
         return dto;
     }
 }

@@ -20,8 +20,8 @@ public class MathFunctionMapperTest {
         assertEquals(dto.getId(), entity.getId());
         assertEquals(dto.getName(), entity.getName());
         assertEquals(dto.getCount(), entity.getCount());
-        assertEquals(dto.getXFrom(), entity.getXFrom());
-        assertEquals(dto.getXTo(), entity.getXTo());
+        assertEquals(dto.getX_from(), entity.getX_from());
+        assertEquals(dto.getX_to(), entity.getX_to());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class MathFunctionMapperTest {
         assertEquals(entity.getId(), dto.getId());
         assertEquals(entity.getName(), dto.getName());
         assertEquals(entity.getCount(), dto.getCount());
-        assertEquals(entity.getXFrom(), dto.getXFrom());
-        assertEquals(entity.getXTo(), dto.getXTo());
+        assertEquals(entity.getX_from(), dto.getX_from());
+        assertEquals(entity.getX_to(), dto.getX_to());
     }
 }

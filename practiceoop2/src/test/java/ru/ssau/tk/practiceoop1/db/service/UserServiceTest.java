@@ -56,7 +56,7 @@ class UserServiceTest {
         when(userRepository.existsByUsername(userEntity.getUsername())).thenReturn(true);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> userService.register(userEntity));
-        assertEquals("Username already taken", thrown.getMessage());
+        assertEquals("Username is already taken!", thrown.getMessage());
         verify(userRepository, never()).save(any(UserEntity.class));
     }
 
@@ -76,7 +76,6 @@ class UserServiceTest {
 
         UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> userService.findByUsername(userEntity.getUsername()));
 
-        // Измените ожидаемое сообщение на фактическое
         assertEquals("User not found with username: testUser", thrown.getMessage());
 
         verify(userRepository).findByUsername(userEntity.getUsername());

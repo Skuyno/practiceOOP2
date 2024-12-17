@@ -27,8 +27,8 @@ public class MathFunctionServiceTest {
         assertNotNull(createdFunction);
         assertEquals("New Function", createdFunction.getName());
         assertEquals(3, createdFunction.getCount());
-        assertEquals(1.0, createdFunction.getXFrom());
-        assertEquals(5.0, createdFunction.getXTo());
+        assertEquals(1.0, createdFunction.getX_from());
+        assertEquals(5.0, createdFunction.getX_to());
     }
 
     @Test

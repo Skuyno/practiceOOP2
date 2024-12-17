@@ -13,8 +13,8 @@ class MathFunctionDTOTest {
         assertEquals(1L, mathFunctionDTO.getId());
         assertEquals("Test Function", mathFunctionDTO.getName());
         assertEquals(5, mathFunctionDTO.getCount());
-        assertEquals(0.0, mathFunctionDTO.getXFrom());
-        assertEquals(10.0, mathFunctionDTO.getXTo());
+        assertEquals(0.0, mathFunctionDTO.getX_from());
+        assertEquals(10.0, mathFunctionDTO.getX_to());
     }
 
     @Test
@@ -23,13 +23,13 @@ class MathFunctionDTOTest {
         mathFunctionDTO.setId(2L);
         mathFunctionDTO.setName("Updated Function");
         mathFunctionDTO.setCount(5);
-        mathFunctionDTO.setXFrom(1.0);
-        mathFunctionDTO.setXTo(20.0);
+        mathFunctionDTO.setX_from(1.0);
+        mathFunctionDTO.setX_to(20.0);
 
         assertEquals(2L, mathFunctionDTO.getId());
         assertEquals("Updated Function", mathFunctionDTO.getName());
         assertEquals(5, mathFunctionDTO.getCount());
-        assertEquals(1.0, mathFunctionDTO.getXFrom());
-        assertEquals(20.0, mathFunctionDTO.getXTo());
+        assertEquals(1.0, mathFunctionDTO.getX_from());
+        assertEquals(20.0, mathFunctionDTO.getX_to());
     }
 }

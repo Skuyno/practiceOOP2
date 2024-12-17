@@ -24,11 +24,11 @@ public class MathFunctionEntity {
     @Column(name = "count")
     private Integer count;
 
-    @Column(name = "xFrom")
-    private Double xFrom;
+    @Column(name = "x_from")
+    private Double x_from;
 
-    @Column(name = "xTo")
-    private Double xTo;
+    @Column(name = "x_to")
+    private Double x_to;
 
     @OneToMany(mappedBy = "function", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PointEntity> points;

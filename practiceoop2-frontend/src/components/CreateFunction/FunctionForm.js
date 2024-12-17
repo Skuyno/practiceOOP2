@@ -3,6 +3,7 @@ import { Form, Button, Card } from 'react-bootstrap';
 
 const FunctionForm = ({ onSubmit }) => {
     const [numPoints, setNumPoints] = useState('');
+    const [functionName, setFunctionName] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -11,13 +12,30 @@ const FunctionForm = ({ onSubmit }) => {
             alert("Количество точек должно быть положительным числом.");
             return;
         }
-        onSubmit(number);
+        if (!functionName.trim()) {
+            alert("Название функции не может быть пустым.");
+            return;
+        }
+        onSubmit({ functionName, number });
     };
 
     return (
         <Card className="mb-3">
             <Card.Body>
                 <Form onSubmit={handleSubmit}>
+                    {/* Поле для имени функции */}
+                    <Form.Group controlId="functionName">
+                        <Form.Label>Название функции</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={functionName}
+                            onChange={(e) => setFunctionName(e.target.value)}
+                            placeholder="Введите название функции"
+                            required
+                        />
+                    </Form.Group>
+
+                    {/* Поле для количества точек */}
                     <Form.Group controlId="numPoints">
                         <Form.Label>Количество точек</Form.Label>
                         <Form.Control
