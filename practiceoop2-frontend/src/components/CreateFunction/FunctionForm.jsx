@@ -34,7 +34,6 @@ const FunctionForm = ({ onSubmit }) => {
                             required
                         />
                     </Form.Group>
-
                     {/* Поле для количества точек */}
                     <Form.Group controlId="numPoints">
                         <Form.Label>Количество точек</Form.Label>

@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import FunctionForm from './FunctionForm';
 import FunctionTable from './FunctionTable';
 import api from '../../api';
+import CustomModal from '../Common/CustomModal';
 
 const CreateFunction = () => {
     const [numPoints, setNumPoints] = useState(0);
     const [points, setPoints] = useState([]);
     const [functionName, setFunctionName] = useState('');
-    const [x_from, setXFrom] = useState('');
-    const [x_to, setXTo] = useState('');
     const [showTable, setShowTable] = useState(false);
     const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const handleSetFunctionData = ({ functionName, number }) => {
         setFunctionName(functionName);
@@ -58,25 +60,22 @@ const CreateFunction = () => {
                 await api.post('/points', pointData);
             }
 
-            alert('Табулированная функция успешно создана!');
+            setSuccessMessage('Табулированная функция успешно создана!');
+            setShowSuccessModal(true);
+
             setShowTable(false);
             setNumPoints(0);
             setPoints([]);
             setFunctionName('');
-            setXFrom('');
-            setXTo('');
         } catch (err) {
             setError(err.response?.data || err.message);
-            setShowModal(true);
+            setShowErrorModal(true);
         }
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
     };
 
     return (
         <>
+            <FunctionForm onSubmit={handleSetFunctionData} />
             {showTable && (
                 <>
                     <FunctionTable points={points} onChange={handleChange} />
@@ -85,19 +84,24 @@ const CreateFunction = () => {
                     </Button>
                 </>
             )}
-            <Modal show={showModal} onHide={handleCloseModal} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Ошибка</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {error}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="danger" onClick={handleCloseModal}>
-                        Закрыть
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+
+            <CustomModal
+                show={showErrorModal}
+                onHide={() => setShowErrorModal(false)}
+                title="Ошибка"
+                body={error}
+                confirmText="Закрыть"
+                variant="danger"
+            />
+
+            <CustomModal
+                show={showSuccessModal}
+                onHide={() => setShowSuccessModal(false)}
+                title="Успех"
+                body={successMessage}
+                confirmText="ОК"
+                variant="success"
+            />
         </>
     );
 };

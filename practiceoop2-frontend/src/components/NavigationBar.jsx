@@ -18,7 +18,11 @@ const NavigationBar = ({ isAuthenticated, onLogout }) => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         {isAuthenticated && (
-                            <Nav.Link as={Link} to="/create-function">Создать Функцию</Nav.Link>
+                            <>
+                                <Nav.Link as={Link} to="/create-function">Создать Функцию</Nav.Link>
+                                <Nav.Link as={Link} to="/functions">Список Функций</Nav.Link>
+                                <Nav.Link as={Link} to="/operate-functions">Операции над функциями</Nav.Link>
+                            </>
                         )}
                     </Nav>
                     <Nav>

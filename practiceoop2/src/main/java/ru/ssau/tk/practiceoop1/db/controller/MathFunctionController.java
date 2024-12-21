@@ -52,5 +52,21 @@ public class MathFunctionController {
         mathFunctionService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/operate")
+    public ResponseEntity<?> operateFunctions(
+            @RequestParam Long funcId1,
+            @RequestParam Long funcId2,
+            @RequestParam String operation
+    ) {
+        try {
+            MathFunctionDTO result = mathFunctionService.operateFunctions(funcId1, funcId2, operation);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } catch (ArithmeticException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
 }
 
