@@ -1,5 +1,6 @@
 package ru.ssau.tk.practiceoop1.db.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.ssau.tk.practiceoop1.db.DTO.PointDTO;
@@ -14,19 +15,14 @@ import ru.ssau.tk.practiceoop1.db.exceptions.PointNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
+@RequiredArgsConstructor
 public class PointService {
 
     private final MathFunctionRepository mathFunctionRepository;
     private final PointRepository pointRepository;
     private final PointMapper pointMapper;
-
-    @Autowired
-    public PointService(PointRepository pointRepository, PointMapper pointMapper, MathFunctionRepository mathFunctionRepository) {
-        this.mathFunctionRepository = mathFunctionRepository;
-        this.pointRepository = pointRepository;
-        this.pointMapper = pointMapper;
-    }
 
     private List<PointDTO> getPointsForFunction(MathFunctionEntity function) {
         return pointRepository.findByFunction(function)

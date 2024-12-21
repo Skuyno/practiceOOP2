@@ -1,5 +1,6 @@
 package ru.ssau.tk.practiceoop1.db.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,15 +11,11 @@ import ru.ssau.tk.practiceoop1.db.service.PointService;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/points")
 public class PointController {
 
     private final PointService pointService;
-
-    @Autowired
-    public PointController(PointService pointService) {
-        this.pointService = pointService;
-    }
 
     @GetMapping("/functions/{functionId}")
     public ResponseEntity<List<PointDTO>> getAllPoints(@PathVariable Long functionId) {

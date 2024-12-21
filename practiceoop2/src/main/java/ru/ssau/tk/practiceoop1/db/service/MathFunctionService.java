@@ -1,6 +1,6 @@
 package ru.ssau.tk.practiceoop1.db.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
 import ru.ssau.tk.practiceoop1.db.DTO.PointDTO;
@@ -8,24 +8,17 @@ import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
 import ru.ssau.tk.practiceoop1.db.mapper.MathFunctionMapper;
 import ru.ssau.tk.practiceoop1.db.repositories.MathFunctionRepository;
 import ru.ssau.tk.practiceoop1.db.exceptions.MathFunctionNotFoundException;
-import ru.ssau.tk.practiceoop1.db.service.PointService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MathFunctionService {
 
     private final MathFunctionRepository mathFunctionRepository;
     private final MathFunctionMapper mathFunctionMapper;
     private final PointService pointService;
-
-    @Autowired
-    public MathFunctionService(MathFunctionRepository mathFunctionRepository, MathFunctionMapper mathFunctionMapper, PointService pointService) {
-        this.mathFunctionRepository = mathFunctionRepository;
-        this.mathFunctionMapper = mathFunctionMapper;
-        this.pointService = pointService;
-    }
 
     public List<MathFunctionDTO> findFunctions(String name) {
         List<MathFunctionEntity> mathFunctionEntities;

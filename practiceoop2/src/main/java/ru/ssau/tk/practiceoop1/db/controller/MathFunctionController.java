@@ -1,5 +1,6 @@
 package ru.ssau.tk.practiceoop1.db.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,15 +11,11 @@ import ru.ssau.tk.practiceoop1.db.service.MathFunctionService;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/functions")
 public class MathFunctionController {
 
     private final MathFunctionService mathFunctionService;
-
-    @Autowired
-    public MathFunctionController(MathFunctionService mathFunctionService) {
-        this.mathFunctionService = mathFunctionService;
-    }
 
     @GetMapping("list")
     public ResponseEntity<List<MathFunctionDTO>> getMathFunctions(@RequestParam(required = false) String name) {

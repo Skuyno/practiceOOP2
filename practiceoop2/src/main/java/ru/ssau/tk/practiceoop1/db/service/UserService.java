@@ -1,9 +1,9 @@
 package ru.ssau.tk.practiceoop1.db.service;
 
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder; // Используйте интерфейс PasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.ssau.tk.practiceoop1.db.model.UserEntity;
 import ru.ssau.tk.practiceoop1.db.model.UserRole;
@@ -12,16 +12,11 @@ import ru.ssau.tk.practiceoop1.db.security.CustomUserDetails;
 import ru.ssau.tk.practiceoop1.db.exceptions.UserNotFoundException;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder; // Инжектируем интерфейс PasswordEncoder
-
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder; // Spring инжектирует бин PasswordEncoder
-    }
 
     @Transactional
     public UserEntity register(UserEntity user) {
