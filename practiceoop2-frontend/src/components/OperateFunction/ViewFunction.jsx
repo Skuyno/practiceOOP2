@@ -26,7 +26,8 @@ const ViewFunction = () => {
         };
         const fetchPoints = async () => {
             const resp = await api.get(`/points/functions/${id}`);
-            setPoints(resp.data);
+            const sortedPoints = resp.data.sort((a, b) => a.x - b.x);
+            setPoints(sortedPoints);
         };
         fetchFunction();
         fetchPoints();

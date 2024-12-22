@@ -7,6 +7,7 @@ import CreateFunction from './components/CreateFunction/CreateFunction';
 import FunctionList from './components/OperateFunction/FunctionList';
 import ViewFunction from './components/OperateFunction/ViewFunction';
 import FunctionOperations from './components/OperateFunction/FunctionOperations';
+import CreateCustomFunction from './components/CreateFunction/CreateCustomFunction';
 import HomePage from './components/HomePage';
 
 function App() {
@@ -47,6 +48,9 @@ function App() {
                     } />
                     <Route path="/operate-functions" element={
                         isAuthenticated ? <FunctionOperations /> : <LoginForm onLogin={handleLogin} />
+                    } />
+                    <Route path="/create-custom-function" element={
+                        isAuthenticated ? <CreateCustomFunction /> : <LoginForm onLogin={handleLogin} />
                     } />
                 </Routes>
             </div>
