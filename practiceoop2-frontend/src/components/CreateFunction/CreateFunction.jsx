@@ -34,12 +34,26 @@ const CreateFunction = () => {
             const xValues = points.map(p => parseFloat(p.x));
             const yValues = points.map(p => parseFloat(p.y));
 
+            const xSet = new Set(xValues);
+            if (xSet.size < xValues.length) {
+                throw new Error("В списке есть дублирующиеся X! Убедитесь, что все X уникальны.");
+            }
+            if (!functionName.trim()) {
+                throw new Error("Название функции не может быть пустым.");
+            }
+            if (numPoints <= 0) {
+                throw new Error("Количество точек должно быть > 0.");
+            }
             if (xValues.some(isNaN) || yValues.some(isNaN)) {
                 throw new Error("Все значения x и y должны быть числами.");
             }
 
             const x_from = Math.min(...xValues);
             const x_to = Math.max(...xValues);
+
+            if (x_to <= x_from) {
+                throw new Error("Диапазон X некорректен (x_to не может быть меньше или равен x_from).");
+            }
 
             const mathFunctionData = {
                 name: functionName,

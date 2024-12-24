@@ -18,10 +18,10 @@ public class MathFunctionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "count")
+    @Column(name = "count", nullable = false)
     private Integer count;
 
     @Column(name = "x_from")

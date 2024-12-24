@@ -6,7 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "points")
+@Table(
+        name = "points",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"function_id", "x_value"})
+        }
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,9 +25,9 @@ public class PointEntity {
     @JoinColumn(name = "function_id", referencedColumnName = "id")
     private MathFunctionEntity function;
 
-    @Column(name = "xValue")
+    @Column(name = "x_value", nullable = false)
     private Double x;
 
-    @Column(name = "yValue")
+    @Column(name = "y_value", nullable = false)
     private Double y;
 }

@@ -2,6 +2,7 @@ package ru.ssau.tk.practiceoop1.db.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
 import ru.ssau.tk.practiceoop1.db.DTO.PointDTO;
 import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
@@ -34,18 +35,21 @@ public class MathFunctionService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public MathFunctionDTO create(MathFunctionDTO mathFunctionDTO) {
         MathFunctionEntity mathFunctionEntity = mathFunctionMapper.toEntity(mathFunctionDTO);
         MathFunctionEntity savedEntity = mathFunctionRepository.save(mathFunctionEntity);
         return mathFunctionMapper.toDTO(savedEntity);
     }
 
+    @Transactional
     public MathFunctionDTO read(Long id) {
         return mathFunctionRepository.findById(id)
                 .map(mathFunctionMapper::toDTO)
                 .orElseThrow(() -> new MathFunctionNotFoundException(id));
     }
 
+    @Transactional
     public MathFunctionDTO update(MathFunctionDTO mathFunctionDTO) {
         if (mathFunctionRepository.existsById(mathFunctionDTO.getId())) {
             MathFunctionEntity mathFunctionEntity = mathFunctionMapper.toEntity(mathFunctionDTO);
@@ -55,6 +59,7 @@ public class MathFunctionService {
         throw new MathFunctionNotFoundException(mathFunctionDTO.getId());
     }
 
+    @Transactional
     public void delete(Long id) {
         if (mathFunctionRepository.existsById(id)) {
             mathFunctionRepository.deleteById(id);
@@ -63,6 +68,7 @@ public class MathFunctionService {
         }
     }
 
+    @Transactional
     public MathFunctionDTO operateFunctions(Long funcId1, Long funcId2, String operation) {
         MathFunctionDTO f1 = read(funcId1);
         MathFunctionDTO f2 = read(funcId2);

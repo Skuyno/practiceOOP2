@@ -1,5 +1,6 @@
 package ru.ssau.tk.practiceoop1.db.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class MathFunctionController {
     }
 
     @PostMapping
-    public ResponseEntity<MathFunctionDTO> create(@RequestBody MathFunctionDTO mathFunctionDTO) {
+    public ResponseEntity<MathFunctionDTO> create(@Valid @RequestBody MathFunctionDTO mathFunctionDTO) {
         MathFunctionDTO createdFunction = mathFunctionService.create(mathFunctionDTO);
         return new ResponseEntity<>(createdFunction, HttpStatus.CREATED);
     }

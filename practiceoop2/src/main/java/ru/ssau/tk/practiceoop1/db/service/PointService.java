@@ -3,6 +3,7 @@ package ru.ssau.tk.practiceoop1.db.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.practiceoop1.db.DTO.PointDTO;
 import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
 import ru.ssau.tk.practiceoop1.db.model.PointEntity;
@@ -37,18 +38,21 @@ public class PointService {
                 .orElseThrow(() -> new MathFunctionNotFoundException(id));
     }
 
+    @Transactional
     public PointDTO create(PointDTO pointDTO) {
         PointEntity pointEntity = pointMapper.toEntity(pointDTO);
         PointEntity savedEntity = pointRepository.save(pointEntity);
         return pointMapper.toDTO(savedEntity);
     }
 
+    @Transactional
     public PointDTO read(Long id) {
         return pointRepository.findById(id)
                 .map(pointMapper::toDTO)
                 .orElseThrow(() -> new PointNotFoundException(id));
     }
 
+    @Transactional
     public PointDTO update(PointDTO pointDTO) {
         if (pointRepository.existsById(pointDTO.getId())) {
             PointEntity pointEntity = pointMapper.toEntity(pointDTO);
@@ -58,6 +62,7 @@ public class PointService {
         throw new PointNotFoundException(pointDTO.getId());
     }
 
+    @Transactional
     public void delete(Long id) {
         if (pointRepository.existsById(id)) {
             pointRepository.deleteById(id);
