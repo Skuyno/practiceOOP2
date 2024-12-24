@@ -4,7 +4,7 @@ import NavigationBar from './components/NavigationBar';
 import LoginForm from './components/Auth/LoginForm';
 import RegisterForm from './components/Auth/RegisterForm';
 import CreateFunction from './components/CreateFunction/CreateFunction';
-import FunctionList from './components/OperateFunction/FunctionList';
+import FunctionListPaged from './components/OperateFunction/FunctionListPaged';
 import ViewFunction from './components/OperateFunction/ViewFunction';
 import FunctionOperations from './components/OperateFunction/FunctionOperations';
 import CreateCustomFunction from './components/CreateFunction/CreateCustomFunction';
@@ -40,8 +40,8 @@ function App() {
                     <Route path="/create-function" element={
                         isAuthenticated ? <CreateFunction /> : <LoginForm onLogin={handleLogin} />
                     } />
-                    <Route path="/functions" element={
-                        isAuthenticated ? <FunctionList /> : <LoginForm onLogin={handleLogin} />
+                    <Route path="/functions-paged"
+                    element={isAuthenticated ? <FunctionListPaged /> : <LoginForm onLogin={handleLogin} />
                     } />
                     <Route path="/view-function/:id" element={
                         isAuthenticated ? <ViewFunction /> : <LoginForm onLogin={handleLogin} />

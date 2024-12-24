@@ -20,7 +20,7 @@ const NavigationBar = ({ isAuthenticated, onLogout }) => {
                         {isAuthenticated && (
                             <>
                                 <Nav.Link as={Link} to="/create-function">Создать Функцию</Nav.Link>
-                                <Nav.Link as={Link} to="/functions">Список Функций</Nav.Link>
+                                <Nav.Link as={Link} to="/functions-paged">Список Функций</Nav.Link>
                                 <Nav.Link as={Link} to="/operate-functions">Операции над функциями</Nav.Link>
                                 <Nav.Link as={Link} to="/create-custom-function">Создать Функцию (Произвольное выражение)</Nav.Link>
                             </>

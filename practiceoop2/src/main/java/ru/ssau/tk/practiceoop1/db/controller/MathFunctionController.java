@@ -3,10 +3,15 @@ package ru.ssau.tk.practiceoop1.db.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
+import ru.ssau.tk.practiceoop1.db.model.MathFunctionEntity;
 import ru.ssau.tk.practiceoop1.db.service.MathFunctionService;
 
 import java.util.List;
@@ -65,6 +70,16 @@ public class MathFunctionController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/list-paged")
+    public ResponseEntity<Page<MathFunctionDTO>> listPaged(
+            @RequestParam(required = false) String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<MathFunctionDTO> result = mathFunctionService.findFunctionsByPage(name, page, size);
+        return ResponseEntity.ok(result);
     }
 }
 

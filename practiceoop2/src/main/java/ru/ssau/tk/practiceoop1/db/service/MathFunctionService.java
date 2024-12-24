@@ -1,6 +1,10 @@
 package ru.ssau.tk.practiceoop1.db.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.practiceoop1.db.DTO.MathFunctionDTO;
@@ -134,5 +138,18 @@ public class MathFunctionService {
         }
 
         return read(newFuncId);
+    }
+
+    public Page<MathFunctionDTO> findFunctionsByPage(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+
+        Page<MathFunctionEntity> pageResult;
+        if (name == null || name.trim().isEmpty()) {
+            pageResult = mathFunctionRepository.findAll(pageable);
+        } else {
+            pageResult = mathFunctionRepository.findByNameContaining(name, pageable);
+        }
+
+        return pageResult.map(mathFunctionMapper::toDTO);
     }
 }
