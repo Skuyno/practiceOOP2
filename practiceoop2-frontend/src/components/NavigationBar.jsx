@@ -13,7 +13,7 @@ const NavigationBar = ({ isAuthenticated, onLogout }) => {
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
-                <Navbar.Brand as={Link} to="/">PracticeOOP2</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/">OOP - good</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
