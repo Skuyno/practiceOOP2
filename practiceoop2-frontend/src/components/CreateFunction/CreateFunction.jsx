@@ -1,3 +1,5 @@
+// src/components/CreateFunction/CreateFunction.js
+
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import FunctionForm from './FunctionForm';
@@ -16,11 +18,16 @@ const CreateFunction = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+    const [currentPage, setCurrentPage] = useState(0);
+    const pointsPerPage = 10;
+    const totalPages = Math.ceil(points.length / pointsPerPage);
+
     const handleSetFunctionData = ({ functionName, number }) => {
         setFunctionName(functionName);
         setNumPoints(number);
         setPoints(Array.from({ length: number }, () => ({ x: '', y: '' })));
         setShowTable(true);
+        setCurrentPage(0);
     };
 
     const handleChange = (index, field, value) => {
@@ -81,9 +88,28 @@ const CreateFunction = () => {
             setNumPoints(0);
             setPoints([]);
             setFunctionName('');
+            setCurrentPage(0);
         } catch (err) {
             setError(err.response?.data || err.message);
             setShowErrorModal(true);
+        }
+    };
+
+    const goToNextPage = () => {
+        if (currentPage < totalPages - 1) {
+            setCurrentPage(prev => prev + 1);
+        }
+    };
+
+    const goToPrevPage = () => {
+        if (currentPage > 0) {
+            setCurrentPage(prev => prev - 1);
+        }
+    };
+
+    const goToPage = (pageNumber) => {
+        if (pageNumber >= 0 && pageNumber < totalPages) {
+            setCurrentPage(pageNumber);
         }
     };
 
@@ -92,7 +118,33 @@ const CreateFunction = () => {
             <FunctionForm onSubmit={handleSetFunctionData} />
             {showTable && (
                 <>
-                    <FunctionTable points={points} onChange={handleChange} />
+                    <FunctionTable 
+                        points={points} 
+                        onChange={handleChange} 
+                        currentPage={currentPage}
+                        pointsPerPage={pointsPerPage}
+                    />
+                    <div className="d-flex justify-content-center align-items-center mb-3">
+                        <Button 
+                            variant="secondary" 
+                            onClick={goToPrevPage} 
+                            disabled={currentPage === 0}
+                            className="me-2"
+                        >
+                            Предыдущая
+                        </Button>
+                        <span>
+                            Страница {currentPage + 1} из {totalPages}
+                        </span>
+                        <Button 
+                            variant="secondary" 
+                            onClick={goToNextPage} 
+                            disabled={currentPage >= totalPages - 1}
+                            className="ms-2"
+                        >
+                            Следующая
+                        </Button>
+                    </div>
                     <Button variant="primary" onClick={handleSubmit} className="mt-3">
                         Создать
                     </Button>
@@ -113,7 +165,7 @@ const CreateFunction = () => {
                 onHide={() => setShowSuccessModal(false)}
                 title="Успех"
                 body={successMessage}
-                confirmText="ОК"
+                confirmText="OK"
                 variant="success"
             />
         </>
